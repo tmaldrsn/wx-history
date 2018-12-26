@@ -8,6 +8,16 @@ from bs4 import BeautifulSoup
 logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S')
 STATION = "KTOL"
 
+def stations_list():
+	con = sqlite3.connect("databases/stations.db")
+	cur = con.cursor()
+
+	stations = []
+	for station in cur.execute("select * from station"):
+		stations.append(station[0])
+	return stations
+
+
 def main(station=STATION):
 	url = urllib.request.urlopen("https://w1.weather.gov/data/obhistory/" + station + ".html")
 	soup = BeautifulSoup(url, 'html.parser')
@@ -38,11 +48,11 @@ def main(station=STATION):
 
 	# Create a database
 	try:
-		con = sqlite3.connect(f"databases/{STATION}.db")
+		con = sqlite3.connect(f"databases/{station}.db")
 	except:
 		raise Exception(f"Was not able to connect to the {STATION} database")
 	
-	logging.info(f"Successfully connected to {STATION}.db")
+	logging.info(f"Successfully connected to {station}.db")
 	
 	cur = con.cursor()
 
@@ -51,7 +61,7 @@ def main(station=STATION):
 	
 	try:
 		cur.execute(f"""create table observations({','.join('"{0}"'.format(w) for w in forecast_elements)}, constraint unq unique (date, time))""")
-		logging.info(f"Created observations table for {STATION}")
+		logging.info(f"Created observations table for {station}")
 	except sqlite3.OperationalError:
 		pass
 
@@ -65,4 +75,8 @@ def main(station=STATION):
 	con.close()
 
 if __name__=="__main__":
-	main()	
+	#main()	
+	stations = stations_list()
+	for i in range(len(stations)):
+		print(f"Station {i+1} out of {len(stations)} updated, {'{0:.4%}'.format((i+1)/len(stations))} complete.")
+		main(stations[i])
