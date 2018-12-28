@@ -1,4 +1,5 @@
 import sys
+import time
 import datetime
 import urllib.request
 import logging
@@ -22,8 +23,12 @@ def main(station=STATION):
 	url = urllib.request.urlopen("https://w1.weather.gov/data/obhistory/" + station + ".html")
 	soup = BeautifulSoup(url, 'html.parser')
 
-	forecast_table = soup.find_all('table')[3]	
-	forecast_rows = forecast_table.find_all('tr')[3:-3]
+	try:
+		forecast_table = soup.find_all('table')[3]	
+		forecast_rows = forecast_table.find_all('tr')[3:-3]
+	except IndexError:
+		print(f"Station {station} data not available.")
+		return
 
 	forecast_elements = [
 		"Date", 
@@ -75,8 +80,15 @@ def main(station=STATION):
 	con.close()
 
 if __name__=="__main__":
-	#main()	
+	#main()
+	start = time.time()
+	
 	stations = stations_list()
 	for i in range(len(stations)):
-		print(f"Station {i+1} out of {len(stations)} updated, {'{0:.4%}'.format((i+1)/len(stations))} complete.")
+		mid = time.time()
+		print(f"Station {i+1} ({stations[i]})  updated, {'{0:.3%}'.format((i+1)/len(stations))} complete. {'{0:.4f}'.format(mid-start)} seconds elapsed.")
 		main(stations[i])
+
+	end = time.time()
+
+	print("\nTime Elapsed: {0:.3f} seconds".format(end-start))
