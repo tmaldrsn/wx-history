@@ -1,3 +1,4 @@
+import os
 import sys
 import time
 import datetime
@@ -53,7 +54,10 @@ def main(station=STATION):
 
 	# Create a database
 	try:
-		con = sqlite3.connect(f"databases/{station}.db")
+		if not os.path.isfile(f"databases/{station}.db"):
+			raise Exception(f"{station} database does not exist!")
+		else:
+			con = sqlite3.connect(f"databases/{station}.db")
 	except:
 		raise Exception(f"Was not able to connect to the {STATION} database")
 	
