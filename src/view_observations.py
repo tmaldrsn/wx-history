@@ -8,7 +8,8 @@ from matplotlib import pyplot as plt
 import tabulate
 import logging
 
-logging.basicConfig(filename="logs/app.log", format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S')
+logging.basicConfig(filename="logs/app.log", format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+DB = "observations.db"
 STATION = "KTOL"
 ITEM = "Air Temperature"
 
@@ -20,13 +21,15 @@ if __name__=="__main__":
 		STATION = "KTOL"
 	
 	try:
-		con = sqlite3.connect(f"databases/observations.db")
+		con = sqlite3.connect(DB)
 	except:
 		raise Exception(f"Was not able to connect to observations database")
 		
 
 	query = f"""select * from {STATION} order by date, time"""
 	df = pd.read_sql_query(query, con)
+	print(df)
+
 	
 	plt.figure()
 	plt.title(f"{ITEM} for {STATION}")
@@ -34,5 +37,5 @@ if __name__=="__main__":
 	plt.ylabel(f"{ITEM}")
 
 
-	plt.plot([datetime.datetime.strptime('{} {}'.format(df["Date"][i], df["Time"][i]), '%m/%d/%Y %H:%M') for i in range(len(df["Date"]))], list(map(int, df[ITEM])))
+	plt.plot_date([datetime.datetime.strptime('{} {}'.format(df["Date"][i], df["Time"][i]), '%m/%d/%Y %H:%M') for i in range(len(df["Date"]))], list(map(int, df[ITEM])), fmt="r-", xdate=True, ydate=False)
 	plt.show()

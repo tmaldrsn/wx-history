@@ -5,13 +5,14 @@ import tabulate
 import logging
 
 logging.basicConfig(filename="logs/app.log", format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+DB = "observations.db"
 STATION = "KTOL"
 
 def main(station=STATION):
-	if not os.path.isfile(f"databases/observations.db"):
-		raise Exception(f"Observations database does not exist!")
+	if not os.path.isfile(DB):
+		raise Exception("Observations database does not exist!")
 	
-	con = sqlite3.connect(f"databases/observations.db")
+	con = sqlite3.connect(DB)
 	cur = con.cursor()
 
 	logging.info(f"Successfully logged into observations database")

@@ -7,15 +7,9 @@ import logging
 import sqlite3
 from bs4 import BeautifulSoup
 
-logging.basicConfig(filename="logs/app.log", format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S')
-STATION = "KTOL"
+logging.basicConfig(filename="logs/app.log", format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+DB = "observations.db"
 
-def stations_list():
-	con = sqlite3.connect("databases/stations.db")
-	cur = con.cursor()
-	
-	for station in cur.execute("select * from station"):
-		yield station[0]
 
 def main():
 	forecast_elements = [
@@ -42,24 +36,27 @@ def main():
 	start_time = time.time()
 	# Create a database
 	try:
-		if not os.path.isfile("databases/observations.db"):
+		if not os.path.isfile(DB):
 			raise Exception("Observations database does not exist!")
 		else:
-			con = sqlite3.connect("databases/observations.db")
+			con = sqlite3.connect(DB)
 	except:
 		raise Exception("Was not able to connect to the observations database")
 
 	logging.info("Successfully connected to the observations database.")
 	
 	cur = con.cursor()
-	
+	stations = list(cur.execute("select * from station"))
+
 	counter = 1
-	for station in stations_list():
+	for station in stations:
+		station = station[0]
 		# Create a table for the station
 		try:
-			cur.execute(f"""create table if not exists {station}({','.join('"{0}"'.format(w) for w in forecast_elements)}, constraint unq unique (date, time))""")
+			cur.execute(f"""create table if not exists {station} ({','.join('"{0}"'.format(w) for w in forecast_elements)}, constraint unq unique (date, time))""")
 			logging.info(f"Created table for {station}")
 		except sqlite3.OperationalError:
+			print(f"table not created for {station}")
 			pass
 	
 		url = urllib.request.urlopen("https://w1.weather.gov/data/obhistory/" + station + ".html")
@@ -68,7 +65,7 @@ def main():
 		try:
 			forecast_table = soup.find_all('table')[3]	
 			forecast_rows = forecast_table.find_all('tr')[3:-3]
-		except IndexError:
+		except IndexError:	
 			logging.info(f"Station {station} data not available.")
 			return
 	

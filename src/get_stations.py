@@ -4,14 +4,15 @@ import sqlite3
 import logging
 
 URL = "https://w1.weather.gov/xml/current_obs/index.xml"
-logging.basicConfig(filename="logs/app.log", format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S')
+logging.basicConfig(filename="logs/app.log", format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+DB = "observations.db"
 STATION = "KTOL"
 
 if __name__=="__main__":
 	
 	# Create database and table if they do not already exist
 	try:
-		con = sqlite3.connect(f"databases/stations.db")
+		con = sqlite3.connect(DB)
 	except:
 		raise Exception(f"Was not able to connect to the stations database")
 	
