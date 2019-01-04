@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <h1>Data for {{ station[0][0] }} - {{ station[0][2] }}</h1>
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Wind</th>
+                <th>Visibility</th>
+                <th>Weather</th>
+                <th>Sky Condition</th>
+                <th>Temperature</th>
+                <th>Dew Point</th>
+                <th>6HR Max</th>
+                <th>6HR Min</th>
+                <th>Humidity</th>
+                <th>Heat Index</th>
+                <th>Wind Chill</th>
+                <th>Altimeter</th>
+                <th>Sea Level Pressure</th>
+                <th>1HR Precip</th>
+                <th>3HR Precip</th>
+                <th>6HR Precip</th>
+            </tr>
+            {% for ob in obs %}
+            <tr>
+                <td>{{ ob[0] }}</td>
+                <td>{{ ob[1] }}</td>
+                <td>{{ ob[2] }}</td>
+                <td>{{ ob[3] }}</td>
+                <td>{{ ob[4] }}</td>
+                <td>{{ ob[5] }}</td>
+                <td>{{ ob[6] }}</td>
+                <td>{{ ob[7] }}</td>
+                <td>{% if ob[8] %}{{ ob[8] }}{% endif %}</td>
+                <td>{% if ob[9] %}{{ ob[9] }}{% endif %}</td>
+                <td>{{ ob[10] }}</td>
+                <td>{% if ob[11] %}{{ ob[11] }}{% endif %}</td>
+                <td>{% if ob[12] %}{{ ob[12] }}{% endif %}</td>
+                <td>{{ ob[13] }}</td>
+                <td>{% if ob[14] %}{{ ob[14] }}{% endif %}</td>
+                <td>{% if ob[15] %}{{ ob[15] }}{% endif %}</td>
+                <td>{% if ob[16] %}{{ ob[16] }}{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

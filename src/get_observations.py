@@ -54,8 +54,9 @@ def main():
 		# Create a table for the station
 		try:
 			cur.execute(f"""create table if not exists {station} ({','.join('"{0}"'.format(w) for w in forecast_elements)}, constraint unq unique (date, time))""")
-			logging.info(f"Created table for {station}")
+			logging.debug(f"Created table for {station}")
 		except sqlite3.OperationalError:
+			logging.info(f"Table not created for {station}")
 			print(f"table not created for {station}")
 			pass
 	
@@ -81,7 +82,7 @@ def main():
 	
 		# Insert data into forecast table
 		cur.executemany(f"""insert or replace into {station} values ({','.join(['?' for i in range(len(forecast_elements))])})""", data_rows)
-		logging.info(f"Data for {station} inserted into observations database.")
+		logging.debug(f"Data for {station} inserted into observations database.")
 		print(f"{station} table updated. {counter} stations complete. {'{0:.4f}'.format(time.time() - start_time)} seconds elapsed.")
 		counter += 1
 
