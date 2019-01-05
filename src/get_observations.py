@@ -60,8 +60,8 @@ def main():
 			print(f"table not created for {station}")
 			pass
 	
-		url = urllib.request.urlopen("https://w1.weather.gov/data/obhistory/" + station + ".html")
-		soup = BeautifulSoup(url, 'html.parser')
+		with urllib.request.urlopen("https://w1.weather.gov/data/obhistory/" + station + ".html") as url:
+			soup = BeautifulSoup(url, 'html.parser')
 	
 		try:
 			forecast_table = soup.find_all('table')[3]	
