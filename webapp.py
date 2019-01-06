@@ -37,7 +37,7 @@ def search_page():
     return render_template('search.html')
 
 
-@app.route('/search/handledata', methods=['GET'])
+@app.route('/search/data', methods=['GET'])
 def handle_data():
     result = request.args
     date = result['date']

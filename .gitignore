@@ -3,5 +3,7 @@ src/__pycache__/
 
 
 logs/
+
+observations.csv
 observations.db
 
