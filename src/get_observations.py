@@ -1,5 +1,6 @@
 import os
 import sys
+import random
 import time
 import datetime
 import urllib.request
@@ -7,7 +8,7 @@ import logging
 import sqlite3
 from bs4 import BeautifulSoup
 
-logging.basicConfig(filename="logs/app.log", format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+logging.basicConfig(filename="logs/get_observations.log", format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
 DB = "observations.db"
 
 
@@ -46,7 +47,12 @@ def main():
 	logging.info("Successfully connected to the observations database.")
 	
 	cur = con.cursor()
-	stations = list(cur.execute("select * from station"))
+
+	# In order to combat poor internet connection, so not only first databases get updated constantly	
+	if random.random() <= 0.5:
+		stations = list(cur.execute("select * from station"))
+	else:
+		stations = list(reversed(list(cur.execute("select * from station"))))
 
 	counter = 1
 	for station in stations:
@@ -66,7 +72,7 @@ def main():
 		try:
 			forecast_table = soup.find_all('table')[3]	
 			forecast_rows = forecast_table.find_all('tr')[3:-3]
-		except IndexError:	
+		except IndexError:
 			logging.info(f"Station {station} data not available.")
 			return
 	
@@ -87,6 +93,7 @@ def main():
 		counter += 1
 
 	con.commit()
+	logging.info("Observations update complete.")
 	con.close()
 
 if __name__=='__main__':

@@ -4,7 +4,7 @@ import sqlite3
 import tabulate
 import logging
 
-logging.basicConfig(filename="logs/app.log", format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+logging.basicConfig(filename="logs/show_observations.log", format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
 DB = "observations.db"
 STATION = "KTOL"
 

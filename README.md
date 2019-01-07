@@ -5,7 +5,23 @@ Basic web backend exercise covering the following topics:
 * databases (sqlite3)
 * web scraping (beautifulsoup)
 * basic webdev (flask, jinja2)
-* http requests w/ flask
+* restful api & http requests w/ flask
+
+To run the project, execute ```bash python run.py```
+
+## ABOUT THE PROJECT
+
+NOAA provides 3-day histories of observations for over 2000 weather stations, and updates them every 20 minutes or hour depending on the station. However, there is no easily findable resource
+containing similar hourly histories online. The goal of this project is to collect the given observation data and compile them into a database containing historical hourly data around the country
+for much longer than 3 days. It also serves as a basic data collection exercise, along with a unique opportunity to explore weather trends in the country over time as the database becomes more complete.
+
+## COMMAND LINE TOOLS
+
+There are mutliple tools to visualize data in the command line:
+
+1. ```bash python src/show_stations.py``` shows all of the available station data.
+2. ```bash python src/show_observations.py [station]``` shows all of the available observation data for the station. If no station is specified, the default station specified in the script is used.
+3. (WORK IN PROGRESS) ```bash python src/view_observations.py [station]``` will show a plot of the temperature (and more) for the specified station over all observations.
 
 ## DATA FORMAT
 
@@ -54,20 +70,20 @@ A csv file will likely be the best way to start since it is about half of the si
 
 In order to maintain the most up-to-date database, every 2 days (no more than 3 days since the data is pulled from 3 day observational histories), execute
 
-```bash
-python src/get_observations.py
-```
+```bash python src/get_observations.py```
 
 Depending on the internet connection, the script may need to be run more than one time (there are 2190 stations meaning 2190 web requests need to be made so it may timeout with poor connections).
 In my experience, each table takes about 0.7-0.8 seconds to complete, however, roadblocks occur relatively often where a minute or two goes by before the next station is updated. In total, it
-usually takes no more than 45 minutes to an hour to complete assuming the connection does not time out.
+usually takes no more than 45 minutes to an hour to complete assuming the connection does not time out. Eventually, the script will be refactored to either become more proficient in scraping
+or at least able to restart itself in case of timeout.
 
 ## TODO
 
 * Host data in different formats elsewhere online
 * Better SQL script for creating database and station tables
-* Export to different data file formats (csv, json, etc.)
 * Fix date plotting issue (over 2018-19 gap)
+* HTML templates for header, footer, or other commonly used formats
+* Develop specific views (see flask website github for inspiration)
 
 ## LONG TERM GOALS
 

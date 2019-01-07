@@ -4,7 +4,7 @@ import sqlite3
 import logging
 
 URL = "https://w1.weather.gov/xml/current_obs/index.xml"
-logging.basicConfig(filename="logs/app.log", format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+logging.basicConfig(filename="logs/get_stations.log", format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
 DB = "observations.db"
 STATION = "KTOL"
 

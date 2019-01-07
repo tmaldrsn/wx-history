@@ -9,7 +9,7 @@ app = Flask(__name__)
 def home_page():
     return render_template('hello.html')
 
-@app.route('/station/')
+@app.route('/stations/')
 def show_station_list():
     con = sqlite3.connect("observations.db")
     cur = con.cursor()
@@ -19,7 +19,7 @@ def show_station_list():
     con.close()
     return render_template('stations.html', stations=stations_list)
 
-@app.route('/station/<s>/<page>')
+@app.route('/stations/<s>/<page>')
 def show_station(s, page):
     con = sqlite3.connect("observations.db")
     cur = con.cursor()

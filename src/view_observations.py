@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 import tabulate
 import logging
 
-logging.basicConfig(filename="logs/app.log", format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+logging.basicConfig(filename="logs/view_observations.log", format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
 DB = "observations.db"
 STATION = "KTOL"
 ITEM = "Air Temperature"
@@ -25,11 +25,8 @@ if __name__=="__main__":
 	except:
 		raise Exception(f"Was not able to connect to observations database")
 		
-
 	query = f"""select * from {STATION} order by date, time"""
 	df = pd.read_sql_query(query, con)
-	print(df)
-
 	
 	plt.figure()
 	plt.title(f"{ITEM} for {STATION}")
