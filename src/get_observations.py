@@ -4,13 +4,13 @@ import random
 import time
 import datetime
 import urllib.request
+from urllib.error import URLError
 import logging
 import sqlite3
 from bs4 import BeautifulSoup
 
-logging.basicConfig(filename="logs/get_observations.log", format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+logging.basicConfig(filename="logs/get_observations.log", format='%(asctime)s - %(level)s - %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
 DB = "observations.db"
-
 
 def main():
 	forecast_elements = [
@@ -65,10 +65,16 @@ def main():
 			logging.info(f"Table not created for {station}")
 			print(f"table not created for {station}")
 			pass
-	
-		with urllib.request.urlopen("https://w1.weather.gov/data/obhistory/" + station + ".html") as url:
-			soup = BeautifulSoup(url, 'html.parser')
-	
+		
+		try:	
+			req = urllib.request.urlopen(f"https://w1.weather.gov/data/obhistory/{station}.html", timeout=5)
+			soup = BeautifulSoup(req, 'html.parser')
+		except (OSError, URLError):
+			logging.warning(f"Station {station} request timed out!!")
+			print(f"Station {station} request timed out!")
+			counter += 1
+			continue
+
 		try:
 			forecast_table = soup.find_all('table')[3]	
 			forecast_rows = forecast_table.find_all('tr')[3:-3]
