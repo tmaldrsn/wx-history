@@ -127,7 +127,7 @@ def main():
 			# Insert data into forecast table
 			cur.executemany(f"""insert or replace into {station} values ({','.join(['?' for i in range(len(forecast_elements))])})""", data_rows)
 			logging.debug(f"Data for {station} inserted into observations database.")
-#			print(f"{station} table updated. {counter} stations complete. {'{0:.4f}'.format(time.time() - start_time)} seconds elapsed.")
+			print(f"{station} table updated. {counter} stations complete. {'{0:.4f}'.format(time.time() - start_time)} seconds elapsed.")
 			counter += 1
 			timed_out[i] = ''
 

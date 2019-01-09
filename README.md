@@ -17,9 +17,9 @@ NOAA provides 3-day histories of observations for over 2000 weather stations, an
 
 There are mutliple tools to visualize data in the command line:
 
-1. ```python src/show_stations.py``` shows all of the available station data.
-2. ```python src/show_observations.py [station]``` shows all of the available observation data for the station. If no station is specified, the default station specified in the script is used.
-3. (WORK IN PROGRESS) ```python src/view_observations.py [station]``` will show a plot of the temperature (and more) for the specified station over all observations.
+1. ```python3 src/show_stations.py``` shows all of the available station data.
+2. ```python3 src/show_observations.py [station]``` shows all of the available observation data for the station. If no station is specified, the default station specified in the script is used.
+3. (WORK IN PROGRESS) ```python3 src/view_observations.py [station]``` will show a plot of the temperature (and more) for the specified station over all observations.
 
 ## DATA FORMAT
 
@@ -67,7 +67,7 @@ I will get around to hosting a base csv file (or db file if I can) containing al
 
 In order to maintain the most up-to-date database locally, every 2 days (no more than 3 days since the data is pulled from 3 day observational histories), execute
 
-```python src/get_observations.py```
+```python3 src/get_observations.py```
 
 ~~Depending on the internet connection, the script may need to be run more than one time (there are 2190 stations meaning 2190 web requests need to be made so it may timeout with poor connections).
 In my experience, each table takes about 0.7-0.8 seconds to complete, however, roadblocks occur relatively often where a minute or two goes by before the next station is updated. In total, it
