@@ -7,21 +7,19 @@ Basic web backend exercise covering the following topics:
 * basic webdev (flask, jinja2)
 * restful api & http requests w/ flask
 
-To run the project, execute ```bash python run.py```
+To run the project, execute ```python run.py```
 
 ## ABOUT THE PROJECT
 
-NOAA provides 3-day histories of observations for over 2000 weather stations, and updates them every 20 minutes or hour depending on the station. However, there is no easily findable resource
-containing similar hourly histories online. The goal of this project is to collect the given observation data and compile them into a database containing historical hourly data around the country
-for much longer than 3 days. It also serves as a basic data collection exercise, along with a unique opportunity to explore weather trends in the country over time as the database becomes more complete.
+NOAA provides 3-day histories of observations for over 2000 weather stations, and updates them every 20 minutes or hour depending on the station. However, there is no easily findable resource containing similar hourly histories online. The goal of this project is to collect the given observation data and compile them into a database containing historical hourly data around the country for much longer than 3 days. It also serves as a basic data collection exercise, along with a unique opportunity to explore weather trends in the country over time as the database becomes more complete.
 
 ## COMMAND LINE TOOLS
 
 There are mutliple tools to visualize data in the command line:
 
-1. ```bash python src/show_stations.py``` shows all of the available station data.
-2. ```bash python src/show_observations.py [station]``` shows all of the available observation data for the station. If no station is specified, the default station specified in the script is used.
-3. (WORK IN PROGRESS) ```bash python src/view_observations.py [station]``` will show a plot of the temperature (and more) for the specified station over all observations.
+1. ```python src/show_stations.py``` shows all of the available station data.
+2. ```python src/show_observations.py [station]``` shows all of the available observation data for the station. If no station is specified, the default station specified in the script is used.
+3. (WORK IN PROGRESS) ```python src/view_observations.py [station]``` will show a plot of the temperature (and more) for the specified station over all observations.
 
 ## DATA FORMAT
 
@@ -65,17 +63,20 @@ When exporting to a csv file using the db_to_csv.py script, each individual obse
 
 ### DATA MAINTANENCE
 
-I will get around to hosting a base csv file (or db file if I can) containing all of the data I have collected since the genesis of the project (since about Christmas 2018 for most stsations).
-A csv file will likely be the best way to start since it is about half of the size of the db file, and I am wokring on a csv_to_db script that will create the observations.db file from the imported csv file.
+I will get around to hosting a base csv file (or db file if I can) containing all of the data I have collected since the genesis of the project (since about Christmas 2018 for most stations). A csv file will likely be the best way to start since it is about half of the size of the db file, and I am wokring on a csv_to_db script that will create the observations.db file from the imported csv file.
 
-In order to maintain the most up-to-date database, every 2 days (no more than 3 days since the data is pulled from 3 day observational histories), execute
+In order to maintain the most up-to-date database locally, every 2 days (no more than 3 days since the data is pulled from 3 day observational histories), execute
 
-```bash python src/get_observations.py```
+```python src/get_observations.py```
 
-Depending on the internet connection, the script may need to be run more than one time (there are 2190 stations meaning 2190 web requests need to be made so it may timeout with poor connections).
+~~Depending on the internet connection, the script may need to be run more than one time (there are 2190 stations meaning 2190 web requests need to be made so it may timeout with poor connections).
 In my experience, each table takes about 0.7-0.8 seconds to complete, however, roadblocks occur relatively often where a minute or two goes by before the next station is updated. In total, it
 usually takes no more than 45 minutes to an hour to complete assuming the connection does not time out. Eventually, the script will be refactored to either become more proficient in scraping
-or at least able to restart itself in case of timeout.
+or at least able to restart itself in case of timeout.~~
+
+UPDATE: The new script iteratively re-requests the html files that timeout after a specified number of seconds (default is 3 seconds) until there are no more requests that need to be made. This allows for a complete update of the database to occur without needing to manually restart the get_observations.py script and praying the same timeout does not occur. It also ensures that disconnections are avoided, since the script will not automatically timeout when it hits a wall in the urllib request connection. Still a work in progress but a good step nonetheless. The timeout parameter may also be adjusted, 5 seconds just seemed like a reasonable medium since most requests take a second or two; the list storing the timed out stations needs to be relatively short so many rounds of reconnection can be avoided.
+
+Hopefully in the future, concurrency will assist in speeding the process of updating the database.
 
 ## TODO
 
