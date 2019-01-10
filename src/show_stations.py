@@ -3,9 +3,10 @@ import sqlite3
 import pandas as pd
 import tabulate
 import logging
+from logging.config import fileConfig
 
-logging.basicConfig(filename="logs/show_stations.log", format='%(asctime)s %(message)s',
-                    datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+fileConfig('logging_config.ini')
+logger = logging.getLogger()
 DB = "observations.db"
 
 if __name__ == "__main__":

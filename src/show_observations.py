@@ -3,9 +3,10 @@ import sys
 import sqlite3
 import tabulate
 import logging
+from logging.config import fileConfig
 
-logging.basicConfig(filename="logs/show_observations.log",
-                    format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+fileConfig('logging_config.ini')
+logger = logging.getLogger()
 DB = "observations.db"
 STATION = "KTOL"
 
@@ -17,7 +18,7 @@ def main(station=STATION):
     con = sqlite3.connect(DB)
     cur = con.cursor()
 
-    logging.info(f"Successfully logged into observations database")
+    logger.info(f"Successfully logged into observations database")
 
     header_query = f"pragma table_info({station})"
     data_query = f"select * from {station} order by substr(date, 7, 4), substr(date, 1, 2), substr(date, 4, 2), time"

@@ -7,9 +7,10 @@ import pandas as pd
 from matplotlib import pyplot as plt
 import tabulate
 import logging
+from logging.config import fileConfig
 
-logging.basicConfig(filename="logs/view_observations.log",
-                    format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+fileConfig('logging_config.ini')
+logger = logging.getLogger()
 DB = "observations.db"
 STATION = "KTOL"
 ITEM = "Air Temperature"
@@ -18,7 +19,8 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         STATION = str(sys.argv[1])
     else:
-        print("No station was given as an argument, using KTOL by default.")
+        logger.info(
+            "No station was given as an argument, using KTOL by default.")
         STATION = "KTOL"
 
     try:
