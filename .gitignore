@@ -9,3 +9,4 @@ observations.db
 observations.db-journal
 
 .coverage
+.vscode

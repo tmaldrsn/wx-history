@@ -80,11 +80,18 @@ Hopefully in the future, concurrency will assist in speeding the process of upda
 
 ## TODO
 
+* Implement javascript for more responsiveness
+* Stylize the pages better
+* Add pages for different error codes (e.g. 404 not found page)
+* AJAX for search page, search parameter validation
+* Graphical interface for viewing data
+* Refactor python scripts for readability (READ PEP GUIDELINES)
 * Host data in different formats elsewhere online
 * Better SQL script for creating database and station tables
 * Fix date plotting issue (over 2018-19 gap)
 * HTML templates for header, footer, or other commonly used formats
 * Develop specific views (see flask website github for inspiration)
+* Testing
 
 ## LONG TERM GOALS
 

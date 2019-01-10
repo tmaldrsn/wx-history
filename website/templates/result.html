@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html>
+
     <head>
         <style>
-            table {background-color:bisque; border-collapse: collapse;}
-            table * {border: 3px solid white;}
-            .header * {background-color:lightblue}            
+            table {
+                background-color: bisque;
+                border-collapse: collapse;
+            }
+
+            table * {
+                border: 3px solid white;
+            }
+
+            .header * {
+                background-color: lightblue
+            }
         </style>
     </head>
+
     <body>
         <h1>Data for {{ station[0][0] }} - {{ station[0][2] }}</h1>
         <table>
@@ -64,4 +75,5 @@
         </table>
         <a href='/search/'>Search other results</a>
     </body>
+
 </html>

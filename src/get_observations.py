@@ -9,6 +9,8 @@ import logging
 import sqlite3
 from bs4 import BeautifulSoup
 
+from connect import get_db_cursor
+
 logging.basicConfig(filename="logs/get_observations.log", format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
 DB = "observations.db"
 TIMEOUT = 3

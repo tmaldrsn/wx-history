@@ -5,9 +5,11 @@ import datetime
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def home_page():
     return render_template('hello.html')
+
 
 @app.route('/stations/')
 def show_station_list():
@@ -18,6 +20,7 @@ def show_station_list():
     stations_list = list(cur.execute(query))
     con.close()
     return render_template('stations.html', stations=stations_list)
+
 
 @app.route('/stations/<s>/<page>')
 def show_station(s, page):
@@ -41,8 +44,9 @@ def search_page():
 def handle_data():
     result = request.args
     date = result['date']
-    datetime_object = datetime.date(year=int(date[:4]), month=int(date[5:7]), day=int(date[8:10]))
-    formatted_date = datetime.date.strftime(datetime_object,"%m/%d/%Y")
+    datetime_object = datetime.date(
+        year=int(date[:4]), month=int(date[5:7]), day=int(date[8:10]))
+    formatted_date = datetime.date.strftime(datetime_object, "%m/%d/%Y")
 
     con = sqlite3.connect("observations.db")
     cur = con.cursor()

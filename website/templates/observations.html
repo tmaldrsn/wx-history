@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html>
+
     <head>
         <style>
-            table {background-color:bisque; border-collapse: collapse;}
-            table * {border: 3px solid white;}
-            .header * {background-color:lightblue}            
+            table {
+                background-color: bisque;
+                border-collapse: collapse;
+            }
+
+            table * {
+                border: 3px solid white;
+            }
+
+            .header * {
+                background-color: lightblue
+            }
         </style>
     </head>
+
     <body>
         <h1>Data for {{ station[0][0] }} - {{ station[0][2] }}</h1>
         <table>
@@ -63,11 +74,12 @@
             {% endfor %}
         </table>
         {% if page == 1 %}
-            <a href="./{{page+1}}">Next 50</a>
+        <a href="./{{page+1}}">Next 50</a>
         {% else %}
-            <a href="./1">Most Recent</a>
-            <a href="./{{page-1}}">Prev 50</a>
-            <a href="./{{page+1}}">Next 50</a>
+        <a href="./1">Most Recent</a>
+        <a href="./{{page-1}}">Prev 50</a>
+        <a href="./{{page+1}}">Next 50</a>
         {% endif %}
     </body>
+
 </html>
