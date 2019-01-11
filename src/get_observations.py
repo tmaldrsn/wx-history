@@ -44,7 +44,12 @@ forecast_elements = [
 
 
 def db_insert_row(cursor, station):
-    # TODO:
+    # TODO: figure out the best way to turn all the crap below into
+    #       an easier to read function to put here.
+    #       ideas:
+    #           * iterate through rows and insert into db
+    #           * iterate by station and insert table data
+    #           * THINK DAMMIT
     pass
 
 
@@ -125,7 +130,8 @@ def main():
             f"""insert or replace into {station[0]} values ({qmarks})""", data_rows)
         logger.debug(
             f"Data for {station[0]} inserted into observations database. "
-            f"Station {i+1-len(timed_out)} out of 2190 updated.")
+            f"Station {i+1-len(timed_out)} out of 2190 updated."
+        )
 
     con.commit()
     logger.info(
@@ -189,10 +195,12 @@ def main():
         if len(timed_out) != 0:
             logger.info(
                 f"Round {current_round} of re-requesting timed out URLs complete. "
-                f"{len(timed_out)} stations still need updated.")
+                f"{len(timed_out)} stations still need updated."
+            )
         else:
             logger.info(
-                f"Observations update complete after {current_round} rounds.")
+                f"Observations update complete after {current_round} rounds."
+            )
 
     con.commit()
     con.close()
