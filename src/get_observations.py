@@ -68,8 +68,9 @@ def main():
     logger.info("Successfully connected to the observations database.")
 
     cur = con.cursor()
-    stations = list(cur.execute("select * from station"))[:150]
+    stations = list(cur.execute("select * from station"))
 
+    start_time = time.time()
     timed_out = []
     for i, station in enumerate(stations):
         # Create a table for the station
@@ -129,8 +130,7 @@ def main():
         cur.executemany(
             f"""insert or replace into {station[0]} values ({qmarks})""", data_rows)
         logger.debug(
-            f"Data for {station[0]} inserted into observations database. "
-            f"Station {i+1-len(timed_out)} out of 2190 updated."
+            f"{station[0]} table ({i+1-len(timed_out)}/{len(stations)}) updated."
         )
 
     con.commit()
@@ -186,8 +186,7 @@ def main():
             cur.executemany(
                 f"""insert or replace into {station} values ({qmarks})""", data_rows)
             logger.debug(
-                f"Data for {station} inserted into observations database. "
-                f"{2190-len(timed_out)+1} out of 2190 stations updated."
+                f"{station} table ({len(stations)-len(timed_out)+i+1}/{len(stations)}) updated."
             )
             timed_out[i] = ''
 
@@ -199,7 +198,8 @@ def main():
             )
         else:
             logger.info(
-                f"Observations update complete after {current_round} rounds."
+                f"Observations update complete after {current_round} rounds.\n"
+                f"Completed in {time.time()-start_time} seconds."
             )
 
     con.commit()
