@@ -72,6 +72,7 @@ def main():
 
     start_time = time.time()
     timed_out = []
+    station_na = []
     for i, station in enumerate(stations):
         # Create a table for the station
         try:
@@ -95,8 +96,15 @@ def main():
             forecast_rows = forecast_table.find_all('tr')[3:-3]
         except IndexError:
             logger.warning(f"Station {station[0]} data not available.")
-            i += 1
+            station_na.append(station[0])
             continue
+        else:
+            if not forecast_rows:
+                logger.warning(f"Station {station[0]} data not available.")
+                station_na.append(station[0])
+                continue
+            elif len(forecast_rows) < 30:
+                logger.warning(f"Station {station[0]} data incomplete.")
 
         now_datetime = datetime.datetime.today()
         most_recent_year = now_datetime.year
@@ -128,7 +136,8 @@ def main():
         # Insert data into forecast table
         qmarks = ','.join(['?' for i in range(len(forecast_elements))])
         cur.executemany(
-            f"""insert or replace into {station[0]} values ({qmarks})""", data_rows)
+            f"""insert or replace into {station[0]} values ({qmarks})""", data_rows
+        )
         logger.debug(
             f"{station[0]} table ({i+1-len(timed_out)}/{len(stations)}) updated."
         )
@@ -141,7 +150,7 @@ def main():
     logger.info(f"{len(timed_out)} stations timed out during first round.")
 
     current_round = 1
-    while len(timed_out) > 0:
+    while len(timed_out) > 0 and current_round <= 10:
         current_round += 1
         for i, station in enumerate(timed_out):
             station = timed_out[i]
@@ -186,7 +195,7 @@ def main():
             cur.executemany(
                 f"""insert or replace into {station} values ({qmarks})""", data_rows)
             logger.debug(
-                f"{station} table ({len(stations)-len(timed_out)+i+1}/{len(stations)}) updated."
+                f"{station} table ({len(stations)-len(timed_out)+i+1}/{len(stations)-len(station_na)}) updated."
             )
             timed_out[i] = ''
 
@@ -196,14 +205,19 @@ def main():
                 f"Round {current_round} of re-requesting timed out URLs complete. "
                 f"{len(timed_out)} stations still need updated."
             )
-        else:
-            logger.info(
-                f"Observations update complete after {current_round} rounds.\n"
-                f"Completed in {time.time()-start_time} seconds."
-            )
+
+    if len(timed_out) != 0:
+        logger.warning(
+            f"{len(timed_out)} stations could not be updated: "
+            f"{', '.join(timed_out)}."
+        )
 
     con.commit()
     con.close()
+    logger.info(
+        f"Observations update complete after {current_round} rounds.\n"
+        f"Completed in {time.time()-start_time} seconds."
+    )
 
 
 if __name__ == '__main__':
