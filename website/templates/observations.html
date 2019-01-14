@@ -61,18 +61,16 @@
       {% endfor %}
     </table>
 
-    {% if page == 1 %}
     <div class="pagination">
-      <a id="prevPage" href="./1">&laquo;</a>
+
+      {% if page == 1 %}
       <a class="pageLink" id="activePage" href="./1">1</a>
       <a class="pageLink" href="./2">2</a>
       <a class="pageLink" href="./3">3</a>
       <a class="pageLink" href="./4">4</a>
       <a class="pageLink" href="./5">5</a>
       <a id="nextPage" href="./{{ page + 1 }}">&raquo;</a>
-    </div>
-    {% elif page == 2 %}
-    <div class="pagination">
+      {% elif page == 2 %}
       <a id="prevPage" href="./ {{ page -  1}}">&laquo;</a>
       <a class="pageLink" href="./1">1</a>
       <a class="pageLink" id="activePage" href="./2">2</a>
@@ -80,9 +78,20 @@
       <a class="pageLink" href="./4">4</a>
       <a class="pageLink" href="./5">5</a>
       <a id="nextPage" href="./{{ page + 1 }}">&raquo;</a>
-    </div>
-    {% elif page >= 3 %}
-    <div class="pagination">
+      {% elif page >= 3 %}
+      {% if page == max_page %}
+      <a id="prevPage" href="./{{ page-1 }}">&laquo;</a>
+      <a class="pageLink" href="./{{ page-2 }}">{{ page-2 }}</a>
+      <a class="pageLink" href="./{{ page-1}}">{{ page-1 }}</a>
+      <a class="pageLink" id="activePage" href="./{{ page }}">{{ page }}</a>
+      {% elif page == max_page-1 %}
+      <a id="prevPage" href="./{{ page-1 }}">&laquo;</a>
+      <a class="pageLink" href="./{{ page-2 }}">{{ page-2 }}</a>
+      <a class="pageLink" href="./{{ page-1}}">{{ page-1 }}</a>
+      <a class="pageLink" id="activePage" href="./{{ page }}">{{ page }}</a>
+      <a class="pageLink" href="./{{ page+1 }}">{{ page+1 }}</a>
+      <a id="nextPage" href="./{{ page+1 }}">&raquo;</a>
+      {% else %}
       <a id="prevPage" href="./{{ page-1 }}">&laquo;</a>
       <a class="pageLink" href="./{{ page-2 }}">{{ page-2 }}</a>
       <a class="pageLink" href="./{{ page-1}}">{{ page-1 }}</a>
@@ -90,12 +99,11 @@
       <a class="pageLink" href="./{{ page+1 }}">{{ page+1 }}</a>
       <a class="pageLink" href="./{{ page+2 }}">{{ page+2 }}</a>
       <a id="nextPage" href="./{{ page+1 }}">&raquo;</a>
-    </div>
-    {% else %}
-    <div class="pagination">
+      {% endif %}
+      {% else %}
       <p>Page not available... <a href="./1">Go back?</a></p>
+      {% endif %}
     </div>
-    {% endif %}
 
   </body>
 
