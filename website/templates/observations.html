@@ -2,20 +2,7 @@
 <html>
 
   <head>
-    <style>
-      table {
-        background-color: bisque;
-        border-collapse: collapse;
-      }
-
-      table * {
-        border: 3px solid white;
-      }
-
-      .header * {
-        background-color: lightblue
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="../../static/css/observations.css">
   </head>
 
   <body>
@@ -73,6 +60,19 @@
       </tr>
       {% endfor %}
     </table>
+
+    <div class="pagination">
+      <a id="prevPage" href="#">&laquo;</a>
+      <a class="pageLink" id="activePage" href="#">1</a>
+      <a class="pageLink" href="#">2</a>
+      <a class="pageLink" href="#">3</a>
+      <a class="pageLink" href="#">4</a>
+      <a class="pageLink" href="#">5</a>
+      <a id="nextPage" href="#">&raquo;</a>
+    </div>
+
+    <script src="../../static/js/pagination.js"></script>
+    <!--
     {% if page == 1 %}
     <a href="./{{page+1}}">Next 50</a>
     {% else %}
@@ -80,6 +80,7 @@
     <a href="./{{page-1}}">Prev 50</a>
     <a href="./{{page+1}}">Next 50</a>
     {% endif %}
+    -->
   </body>
 
 </html>
