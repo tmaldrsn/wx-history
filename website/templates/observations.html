@@ -61,26 +61,42 @@
       {% endfor %}
     </table>
 
-    <div class="pagination">
-      <a id="prevPage" href="#">&laquo;</a>
-      <a class="pageLink" id="activePage" href="#">1</a>
-      <a class="pageLink" href="#">2</a>
-      <a class="pageLink" href="#">3</a>
-      <a class="pageLink" href="#">4</a>
-      <a class="pageLink" href="#">5</a>
-      <a id="nextPage" href="#">&raquo;</a>
-    </div>
-
-    <script src="../../static/js/pagination.js"></script>
-    <!--
     {% if page == 1 %}
-    <a href="./{{page+1}}">Next 50</a>
+    <div class="pagination">
+      <a id="prevPage" href="./1">&laquo;</a>
+      <a class="pageLink" id="activePage" href="./1">1</a>
+      <a class="pageLink" href="./2">2</a>
+      <a class="pageLink" href="./3">3</a>
+      <a class="pageLink" href="./4">4</a>
+      <a class="pageLink" href="./5">5</a>
+      <a id="nextPage" href="./{{ page + 1 }}">&raquo;</a>
+    </div>
+    {% elif page == 2 %}
+    <div class="pagination">
+      <a id="prevPage" href="./ {{ page -  1}}">&laquo;</a>
+      <a class="pageLink" href="./1">1</a>
+      <a class="pageLink" id="activePage" href="./2">2</a>
+      <a class="pageLink" href="./3">3</a>
+      <a class="pageLink" href="./4">4</a>
+      <a class="pageLink" href="./5">5</a>
+      <a id="nextPage" href="./{{ page + 1 }}">&raquo;</a>
+    </div>
+    {% elif page >= 3 %}
+    <div class="pagination">
+      <a id="prevPage" href="./{{ page-1 }}">&laquo;</a>
+      <a class="pageLink" href="./{{ page-2 }}">{{ page-2 }}</a>
+      <a class="pageLink" href="./{{ page-1}}">{{ page-1 }}</a>
+      <a class="pageLink" id="activePage" href="./{{ page }}">{{ page }}</a>
+      <a class="pageLink" href="./{{ page+1 }}">{{ page+1 }}</a>
+      <a class="pageLink" href="./{{ page+2 }}">{{ page+2 }}</a>
+      <a id="nextPage" href="./{{ page+1 }}">&raquo;</a>
+    </div>
     {% else %}
-    <a href="./1">Most Recent</a>
-    <a href="./{{page-1}}">Prev 50</a>
-    <a href="./{{page+1}}">Next 50</a>
+    <div class="pagination">
+      <p>Page not available... <a href="./1">Go back?</a></p>
+    </div>
     {% endif %}
-    -->
+
   </body>
 
 </html>
