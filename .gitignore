@@ -4,6 +4,8 @@ website/__pycache__/
 
 logs/
 
+.vscode
+
 observations.csv
 observations.db
 observations.db-journal
