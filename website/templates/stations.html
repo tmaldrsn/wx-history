@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html>
-    <head>
-    </head>
-    <body>
-        <table id="stations">
-            <tr id="headers">
-                <th>ID</th>
-                <th>State</th>
-                <th>Station Name</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-            </tr>
-            {% for st in stations %}
-            <tr>
-                <td><a href="./{{st[0]}}/1">{{st[0]}}</a></td>
-                <td>{{st[1]}}</td>
-                <td>{{st[2]}}</td>
-                <td>{{st[3]}}</td>
-                <td>{{st[4]}}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </body>
+
+  <head>
+  </head>
+
+  <body>
+    <table id="stations">
+      <tr id="headers">
+        <th>ID</th>
+        <th>State</th>
+        <th>Station Name</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+      </tr>
+      {% for st in stations %}
+      <tr>
+        <td><a href="./{{st[0]}}/1">{{st[0]}}</a></td>
+        <td>{{st[1]}}</td>
+        <td>{{st[2]}}</td>
+        <td>{{st[3]}}</td>
+        <td>{{st[4]}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+
 </html>

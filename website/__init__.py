@@ -5,9 +5,11 @@ import datetime
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def home_page():
     return render_template('hello.html')
+
 
 @app.route('/stations/')
 def show_station_list():
@@ -19,6 +21,7 @@ def show_station_list():
     con.close()
     return render_template('stations.html', stations=stations_list)
 
+
 @app.route('/stations/<s>/<page>')
 def show_station(s, page):
     con = sqlite3.connect("observations.db")
@@ -28,8 +31,11 @@ def show_station(s, page):
     station_data = list(cur.execute(station_query))
     query = f"select * from {s} order by substr(date, 7, 4) desc, substr(date, 1, 2) desc, substr(date, 4, 2) desc, time desc limit 50 offset {50*(int(page)-1)}"
     observations = list(cur.execute(query))
+    len_query = f"select count(*) from {s}"
+    num_observations = list(cur.execute(len_query))[0][0]
+    max_page = num_observations // 50 + 1
     con.close()
-    return render_template('observations.html', station=station_data, obs=observations, page=int(page))
+    return render_template('observations.html', station=station_data, obs=observations, page=int(page),  max_page=int(max_page))
 
 
 @app.route('/search/')
@@ -41,8 +47,9 @@ def search_page():
 def handle_data():
     result = request.args
     date = result['date']
-    datetime_object = datetime.date(year=int(date[:4]), month=int(date[5:7]), day=int(date[8:10]))
-    formatted_date = datetime.date.strftime(datetime_object,"%m/%d/%Y")
+    datetime_object = datetime.date(
+        year=int(date[:4]), month=int(date[5:7]), day=int(date[8:10]))
+    formatted_date = datetime.date.strftime(datetime_object, "%m/%d/%Y")
 
     con = sqlite3.connect("observations.db")
     cur = con.cursor()
