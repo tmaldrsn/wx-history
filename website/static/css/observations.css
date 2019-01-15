@@ -1,0 +1,29 @@
+table {
+  background-color: bisque;
+  border-collapse: collapse;
+}
+
+table * {
+  border: 3px solid white;
+}
+
+.header * {
+  background-color: lightblue
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+}
+
+.pagination a#activePage {
+  background-color: dodgerblue;
+  color: white;
+}
+
+.pagination a:hover:not(#activePage) {
+  background-color: #ddd;
+}

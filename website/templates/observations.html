@@ -1,85 +1,110 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <style>
-            table {
-                background-color: bisque;
-                border-collapse: collapse;
-            }
+  <head>
+    <link rel="stylesheet" type="text/css" href="../../static/css/observations.css">
+  </head>
 
-            table * {
-                border: 3px solid white;
-            }
+  <body>
+    <h1>Data for {{ station[0][0] }} - {{ station[0][2] }}</h1>
+    <table>
+      <tr class="header">
+        <th rowspan=3>Date</th>
+        <th rowspan=3>Time (local)</th>
+        <th rowspan=3>Wind (mph)</th>
+        <th rowspan=3>Vis. (mi.)</th>
+        <th rowspan=3>Weather</th>
+        <th rowspan=3>Sky Cond.</th>
+        <th rowspan=1 colspan=4>Temperature (&#8457;)</th>
+        <th rowspan=3>Humidity</th>
+        <th rowspan=3>Heat Index</th>
+        <th rowspan=3>Wind Chill</th>
+        <th rowspan=1 colspan=2>Pressure</th>
+        <th rowspan=1 colspan=3>Precipitaion (in.)</th>
+      </tr>
+      <tr class="header">
+        <th rowspan=2>Air</th>
+        <th rowspan=2>Dwpt</th>
+        <th rowspan=1 colspan=2>6 hour</th>
+        <th rowspan=2>altimeter (in)</th>
+        <th rowspan=2>sea level (mb)</th>
+        <th rowspan=2>1 hr</th>
+        <th rowspan=2>3 hr</th>
+        <th rowspan=2>6 hr</th>
+      </tr>
+      <tr class="header">
+        <th rowspan=1 colspan=1>Max.</th>
+        <th rowspan=1 colspan=1>Min.</th>
+      </tr>
 
-            .header * {
-                background-color: lightblue
-            }
-        </style>
-    </head>
+      {% for ob in obs %}
+      <tr>
+        <td>{{ ob[0] }}</td>
+        <td>{{ ob[1] }}</td>
+        <td>{{ ob[2] }}</td>
+        <td>{{ ob[3] }}</td>
+        <td>{{ ob[4] }}</td>
+        <td>{{ ob[5] }}</td>
+        <td>{{ ob[6] }}</td>
+        <td>{{ ob[7] }}</td>
+        <td>{% if ob[8] %}{{ ob[8] }}{% endif %}</td>
+        <td>{% if ob[9] %}{{ ob[9] }}{% endif %}</td>
+        <td>{{ ob[10] }}</td>
+        <td>{% if ob[11] %}{{ ob[11] }}{% endif %}</td>
+        <td>{% if ob[12] %}{{ ob[12] }}{% endif %}</td>
+        <td>{% if ob[13] %}{{ ob[13] }}{% endif %}</td>
+        <td>{% if ob[14] %}{{ ob[14] }}{% endif %}</td>
+        <td>{% if ob[15] %}{{ ob[15] }}{% endif %}</td>
+        <td>{% if ob[16] %}{{ ob[16] }}{% endif %}</td>
+        <td>{% if ob[17] %}{{ ob[17] }}{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </table>
 
-    <body>
-        <h1>Data for {{ station[0][0] }} - {{ station[0][2] }}</h1>
-        <table>
-            <tr class="header">
-                <th rowspan=3>Date</th>
-                <th rowspan=3>Time (local)</th>
-                <th rowspan=3>Wind (mph)</th>
-                <th rowspan=3>Vis. (mi.)</th>
-                <th rowspan=3>Weather</th>
-                <th rowspan=3>Sky Cond.</th>
-                <th rowspan=1 colspan=4>Temperature (&#8457;)</th>
-                <th rowspan=3>Humidity</th>
-                <th rowspan=3>Heat Index</th>
-                <th rowspan=3>Wind Chill</th>
-                <th rowspan=1 colspan=2>Pressure</th>
-                <th rowspan=1 colspan=3>Precipitaion (in.)</th>
-            </tr>
-            <tr class="header">
-                <th rowspan=2>Air</th>
-                <th rowspan=2>Dwpt</th>
-                <th rowspan=1 colspan=2>6 hour</th>
-                <th rowspan=2>altimeter (in)</th>
-                <th rowspan=2>sea level (mb)</th>
-                <th rowspan=2>1 hr</th>
-                <th rowspan=2>3 hr</th>
-                <th rowspan=2>6 hr</th>
-            </tr>
-            <tr class="header">
-                <th rowspan=1 colspan=1>Max.</th>
-                <th rowspan=1 colspan=1>Min.</th>
-            </tr>
+    <div class="pagination">
 
-            {% for ob in obs %}
-            <tr>
-                <td>{{ ob[0] }}</td>
-                <td>{{ ob[1] }}</td>
-                <td>{{ ob[2] }}</td>
-                <td>{{ ob[3] }}</td>
-                <td>{{ ob[4] }}</td>
-                <td>{{ ob[5] }}</td>
-                <td>{{ ob[6] }}</td>
-                <td>{{ ob[7] }}</td>
-                <td>{% if ob[8] %}{{ ob[8] }}{% endif %}</td>
-                <td>{% if ob[9] %}{{ ob[9] }}{% endif %}</td>
-                <td>{{ ob[10] }}</td>
-                <td>{% if ob[11] %}{{ ob[11] }}{% endif %}</td>
-                <td>{% if ob[12] %}{{ ob[12] }}{% endif %}</td>
-                <td>{% if ob[13] %}{{ ob[13] }}{% endif %}</td>
-                <td>{% if ob[14] %}{{ ob[14] }}{% endif %}</td>
-                <td>{% if ob[15] %}{{ ob[15] }}{% endif %}</td>
-                <td>{% if ob[16] %}{{ ob[16] }}{% endif %}</td>
-                <td>{% if ob[17] %}{{ ob[17] }}{% endif %}</td>
-            </tr>
-            {% endfor %}
-        </table>
-        {% if page == 1 %}
-        <a href="./{{page+1}}">Next 50</a>
-        {% else %}
-        <a href="./1">Most Recent</a>
-        <a href="./{{page-1}}">Prev 50</a>
-        <a href="./{{page+1}}">Next 50</a>
-        {% endif %}
-    </body>
+      {% if page == 1 %}
+      <a class="pageLink" id="activePage" href="./1">1</a>
+      <a class="pageLink" href="./2">2</a>
+      <a class="pageLink" href="./3">3</a>
+      <a class="pageLink" href="./4">4</a>
+      <a class="pageLink" href="./5">5</a>
+      <a id="nextPage" href="./{{ page + 1 }}">&raquo;</a>
+      {% elif page == 2 %}
+      <a id="prevPage" href="./ {{ page -  1}}">&laquo;</a>
+      <a class="pageLink" href="./1">1</a>
+      <a class="pageLink" id="activePage" href="./2">2</a>
+      <a class="pageLink" href="./3">3</a>
+      <a class="pageLink" href="./4">4</a>
+      <a class="pageLink" href="./5">5</a>
+      <a id="nextPage" href="./{{ page + 1 }}">&raquo;</a>
+      {% elif page >= 3 %}
+      {% if page == max_page %}
+      <a id="prevPage" href="./{{ page-1 }}">&laquo;</a>
+      <a class="pageLink" href="./{{ page-2 }}">{{ page-2 }}</a>
+      <a class="pageLink" href="./{{ page-1}}">{{ page-1 }}</a>
+      <a class="pageLink" id="activePage" href="./{{ page }}">{{ page }}</a>
+      {% elif page == max_page-1 %}
+      <a id="prevPage" href="./{{ page-1 }}">&laquo;</a>
+      <a class="pageLink" href="./{{ page-2 }}">{{ page-2 }}</a>
+      <a class="pageLink" href="./{{ page-1}}">{{ page-1 }}</a>
+      <a class="pageLink" id="activePage" href="./{{ page }}">{{ page }}</a>
+      <a class="pageLink" href="./{{ page+1 }}">{{ page+1 }}</a>
+      <a id="nextPage" href="./{{ page+1 }}">&raquo;</a>
+      {% else %}
+      <a id="prevPage" href="./{{ page-1 }}">&laquo;</a>
+      <a class="pageLink" href="./{{ page-2 }}">{{ page-2 }}</a>
+      <a class="pageLink" href="./{{ page-1}}">{{ page-1 }}</a>
+      <a class="pageLink" id="activePage" href="./{{ page }}">{{ page }}</a>
+      <a class="pageLink" href="./{{ page+1 }}">{{ page+1 }}</a>
+      <a class="pageLink" href="./{{ page+2 }}">{{ page+2 }}</a>
+      <a id="nextPage" href="./{{ page+1 }}">&raquo;</a>
+      {% endif %}
+      {% else %}
+      <p>Page not available... <a href="./1">Go back?</a></p>
+      {% endif %}
+    </div>
+
+  </body>
 
 </html>

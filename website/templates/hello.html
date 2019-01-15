@@ -1,27 +1,34 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    </head>
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/css/home.css">
+  </head>
 
-    <body>
-        <header>
-            <nav>
-                <a href="/">Home</a>
-                <a href="/stations/">View Stations</a>
-                <a href="/search/">Search Data</a>
-            </nav>
-        </header>
-        <h1>Nationwide Hourly Weather Log</h1>
-        <p>
-            The goal of this project is to collect and view weather data collected from
-            over 2000 weather stations across the contiguous 48 states.
-        </p>
+  <body>
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <a href="/" class="activepage">Home</a>
+      <a href="/stations/">Stations</a>
+      <a href="/search/">Search Data</a>
+    </div>
 
-        <footer>
-            <a href="https://github.com/tmaldrsn/wx-history"><i class="fa fa-github"></i></a>
-        </footer>
-    </body>
+    <div id="main">
+      <a onclick="openNav()"><i class="fa fa-bars"></i></a>
+
+      <h1>Nationwide Hourly Weather Log</h1>
+      <p>
+        The goal of this project is to collect and view weather data collected from
+        over 2000 weather stations across the contiguous 48 states.
+      </p>
+
+      <footer>
+        <a href="https://github.com/tmaldrsn/wx-history"><i class="fa fa-github"></i></a>
+      </footer>
+    </div>
+
+    <script src="../static/js/home.js"></script>
+  </body>
 
 </html>
