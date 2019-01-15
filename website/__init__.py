@@ -31,8 +31,11 @@ def show_station(s, page):
     station_data = list(cur.execute(station_query))
     query = f"select * from {s} order by substr(date, 7, 4) desc, substr(date, 1, 2) desc, substr(date, 4, 2) desc, time desc limit 50 offset {50*(int(page)-1)}"
     observations = list(cur.execute(query))
+    len_query = f"select count(*) from {s}"
+    num_observations = list(cur.execute(len_query))[0][0]
+    max_page = num_observations // 50 + 1
     con.close()
-    return render_template('observations.html', station=station_data, obs=observations, page=int(page))
+    return render_template('observations.html', station=station_data, obs=observations, page=int(page),  max_page=int(max_page))
 
 
 @app.route('/search/')
