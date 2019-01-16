@@ -79,4 +79,11 @@ def handle_data():
     station_data = list(cur.execute(station_query))
     observation_data = list(cur.execute(data_query))
 
-    return render_template('result.html', obs=observation_data, station=station_data, date=date)
+    return render_template(
+        'result.html',
+        obs=observation_data,
+        station=station_data,
+        curr_date=str(datetime_object),
+        prev_date=str(datetime_object-datetime.timedelta(days=1)),
+        next_date=str(datetime_object+datetime.timedelta(days=1)),
+    )

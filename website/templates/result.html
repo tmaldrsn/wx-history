@@ -3,7 +3,7 @@
 
   <head>
     <title>
-      {{ station[0][0] }} - {{ date }}
+      {{ station[0][0] }} - {{ curr_date }}
     </title>
     <style>
       table {
@@ -22,7 +22,13 @@
   </head>
 
   <body>
-    <h1>Data for {{ station[0][0] }} - {{ station[0][2] }}</h1>
+    <h1>Data for {{ station[0][0] }} - {{ station[0][2] }} on {{ curr_date }}</h1>
+    <div class="date-nav">
+      <a href="./data?station={{station[0][0]}}&date={{prev_date}}">
+        << {{prev_date}} </a> | {{curr_date}} | <a href="./data?station={{station[0][0]}}&date={{next_date}}">
+          {{next_date}} >>
+      </a>
+    </div>
     <table>
       <tr class="header">
         <th rowspan=3>Date</th>
@@ -75,7 +81,41 @@
         <td>{% if ob[17] %}{{ ob[17] }}{% endif %}</td>
       </tr>
       {% endfor %}
+      <tr class="header">
+        <th rowspan=3>Date</th>
+        <th rowspan=3>Time (local)</th>
+        <th rowspan=3>Wind (mph)</th>
+        <th rowspan=3>Vis. (mi.)</th>
+        <th rowspan=3>Weather</th>
+        <th rowspan=3>Sky Cond.</th>
+        <th rowspan=2>Air</th>
+        <th rowspan=2>Dwpt</th>
+        <th rowspan=1 colspan=1>Max.</th>
+        <th rowspan=1 colspan=1>Min.</th>
+        <th rowspan=3>Humidity</th>
+        <th rowspan=3>Heat Index</th>
+        <th rowspan=3>Wind Chill</th>
+        <th rowspan=2>altimeter (in)</th>
+        <th rowspan=2>sea level (mb)</th>
+        <th rowspan=2>1 hr</th>
+        <th rowspan=2>3 hr</th>
+        <th rowspan=2>6 hr</th>
+      </tr>
+      <tr class="header">
+        <th rowspan=1 colspan=2>6 hour</th>
+      </tr>
+      <tr class="header">
+        <th rowspan=1 colspan=4>Temperature (&#8457;)</th>
+        <th rowspan=1 colspan=2>Pressure</th>
+        <th rowspan=1 colspan=3>Precipitaion (in.)</th>
+      </tr>
     </table>
+    <div class="date-nav">
+      <a href="./data?station={{station[0][0]}}&date={{prev_date}}">
+        << {{prev_date}} </a> | {{curr_date}} | <a href="./data?station={{station[0][0]}}&date={{next_date}}">
+          {{next_date}} >>
+      </a>
+    </div>
     <a href='/search/'>Search other results</a>
   </body>
 
