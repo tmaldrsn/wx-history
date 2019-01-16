@@ -1,9 +1,25 @@
-from flask import Flask, url_for, render_template, request
+from flask import (
+    Flask,
+    url_for,
+    render_template,
+    request,
+    abort
+)
 import sqlite3
 import datetime
 
 
 app = Flask(__name__)
+
+
+@app.errorhandler(400)
+def bad_request(error):
+    return render_template('400.html', error=error), 400
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.html'), 404
 
 
 @app.route('/')
@@ -35,6 +51,9 @@ def show_station(s, page):
     num_observations = list(cur.execute(len_query))[0][0]
     max_page = num_observations // 50 + 1
     con.close()
+
+    if int(page) > max_page or int(page) < 0:
+        abort(404)
     return render_template('observations.html', station=station_data, obs=observations, page=int(page),  max_page=int(max_page))
 
 
