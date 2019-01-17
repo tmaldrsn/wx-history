@@ -7,7 +7,7 @@ Basic web backend exercise covering the following topics:
 * basic webdev (flask, jinja2)
 * restful api & http requests w/ flask
 
-To run the project, execute ```python run.py```
+To run the project, execute ```python3 run.py```
 
 ## ABOUT THE PROJECT
 
@@ -80,21 +80,16 @@ Hopefully in the future, concurrency will assist in speeding the process of upda
 
 ## TODO
 
-* Implement javascript for more responsiveness
-* Stylize the pages better
-* Add pages for different error codes (e.g. 404 not found page)
-* AJAX for search page, search parameter validation
-* Graphical interface for viewing data
-* Refactor python scripts for readability (READ PEP GUIDELINES)
-* Host data in different formats elsewhere online
-* Better SQL script for creating database and station tables
-* Fix date plotting issue (over 2018-19 gap)
-* HTML templates for header, footer, or other commonly used formats
-* Develop specific views (see flask website github for inspiration)
-* Testing
+* Improve database querying both for observations and stations data
+* Design API structure and build off that
+* HTML layout & observation table template
+* Implement basic data visualization with server-side plot generation (?)
+* Find and store most recent db update time information
+* Style observation tables (TABLE WIDTHS!!)
+* Start investigating simple testing
 
 ## LONG TERM GOALS
 
-* Optimize data collection (currently takes about ~30-40 minutes to collect -> sometimes doesn't complete)
+* Fix date plotting issue (over 2018-19 gap)
 * Add hourly forecast viewing (which are also available online per station)
 * Machine learning?!?!?
