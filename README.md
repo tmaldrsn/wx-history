@@ -78,6 +78,10 @@ UPDATE: The new script iteratively re-requests the html files that timeout after
 
 Hopefully in the future, concurrency will assist in speeding the process of updating the database.
 
+## TESTING
+
+Execute ```pytest``` in the command line to run the test suite.
+
 ## TODO
 
 * Improve database querying both for observations and stations data
@@ -86,7 +90,6 @@ Hopefully in the future, concurrency will assist in speeding the process of upda
 * Implement basic data visualization with server-side plot generation (?)
 * Find and store most recent db update time information
 * Style observation tables (TABLE WIDTHS!!)
-* Start investigating simple testing
 
 ## LONG TERM GOALS
 
