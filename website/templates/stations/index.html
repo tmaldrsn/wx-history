@@ -3,27 +3,40 @@
 
   <head>
     <title>Stations List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/css/home.css">
   </head>
 
   <body>
-    <table id="stations">
-      <tr id="headers">
-        <th>ID</th>
-        <th>State</th>
-        <th>Station Name</th>
-        <th>Latitude</th>
-        <th>Longitude</th>
-      </tr>
-      {% for st in stations %}
-      <tr>
-        <td><a href="./{{st[0]}}/1">{{st[0]}}</a></td>
-        <td>{{st[1]}}</td>
-        <td>{{st[2]}}</td>
-        <td>{{st[3]}}</td>
-        <td>{{st[4]}}</td>
-      </tr>
-      {% endfor %}
-    </table>
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <a href="/" class="activepage">Home</a>
+      <a href="/stations/">Stations</a>
+      <a href="/search/">Search Data</a>
+    </div>
+
+    <div id="main">
+      <a onclick="openNav()"><i class="fa fa-bars"></i></a>
+
+      <table id="stations">
+        <tr id="headers">
+          <th>ID</th>
+          <th>State</th>
+          <th>Station Name</th>
+          <th>Latitude</th>
+          <th>Longitude</th>
+        </tr>
+        {% for st in stations %}
+        <tr>
+          <td><a href="./{{st[0]}}/1">{{st[0]}}</a></td>
+          <td>{{st[1]}}</td>
+          <td>{{st[2]}}</td>
+          <td>{{st[3]}}</td>
+          <td>{{st[4]}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
   </body>
 
 </html>
