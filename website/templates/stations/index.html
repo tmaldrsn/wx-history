@@ -5,11 +5,12 @@
     <title>Stations List</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../static/css/home.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
 
   <body>
     <div id="mySidenav" class="sidenav">
-      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <a href="javascript:void(0)" class="closebtn" onkeydown="closeNav();">&times;</a>
       <a href="/" class="activepage">Home</a>
       <a href="/stations/">Stations</a>
       <a href="/search/">Search Data</a>
@@ -17,7 +18,7 @@
 
     <div id="main">
       <a onclick="openNav()"><i class="fa fa-bars"></i></a>
-
+      <input id="stationFilter" type="text" maxlength="4">
       <table id="stations">
         <tr id="headers">
           <th>ID</th>
@@ -37,6 +38,8 @@
         {% endfor %}
       </table>
     </div>
+    <script src="../static/js/filter.js"></script>
+    <script src="../static/js/home.js"></script>
   </body>
 
 </html>
