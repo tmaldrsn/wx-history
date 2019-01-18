@@ -11,3 +11,9 @@ function closeNav() {
   document.getElementById("main").style.marginLeft = "0";
   document.body.style.backgroundColor = "white";
 }
+
+function toggleFilterOptions() {
+  let filterElement = document.getElementById("filters")
+  if (filterElement.style.display == "") filterElement.style.display = "block";
+  else if (filterElement.style.display == "block") filterElement.style.display = "";
+}
