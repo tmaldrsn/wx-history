@@ -72,6 +72,7 @@ def main():
 
     start_time = time.time()
     timed_out = []
+    incomplete = []
     station_na = []
     for i, station in enumerate(stations):
         # Create a table for the station
@@ -105,6 +106,7 @@ def main():
                 continue
             elif len(forecast_rows) < 30:
                 logger.warning(f"Station {station[0]} data incomplete.")
+                incomplete.append(station[0])
 
         now_datetime = datetime.datetime.today()
         most_recent_year = now_datetime.year
@@ -160,7 +162,7 @@ def main():
             except (OSError, URLError):
                 logger.warning(
                     f"Station {station} request timed out again... "
-                    "this time in round {current_round}"
+                    f"this time in round {current_round}"
                 )
                 continue
 
@@ -210,6 +212,11 @@ def main():
         logger.warning(
             f"{len(timed_out)} stations could not be updated: "
             f"{', '.join(timed_out)}."
+        )
+    if len(incomplete) != 0:
+        logger.warning(
+            f"{len(incomplete)} stations had incomplete data: "
+            f"{', '.join(incomplete)}."
         )
 
     con.commit()
