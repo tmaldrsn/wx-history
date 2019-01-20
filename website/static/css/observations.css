@@ -8,8 +8,13 @@ table * {
 }
 
 .header * {
-  background-color: lightblue
+  background-color: lightblue;
 }
+
+tr:nth-child(even) {
+  background-color: beige;
+}
+
 
 .pagination a {
   color: black;

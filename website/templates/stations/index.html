@@ -23,29 +23,48 @@
         - <span id="numResults">2190</span> Results
       </div>
       <div id="filters" hidden>
-        <label for="idFilter">ID:</label>
-        <input type="text" name="idFilter" id="idFilter" maxlength="4"><br />
-        <label for="stateFilter">State:</label>
-        <input type="text" name="stateFilter" id="stateFilter" maxlength="2"><br />
-        <label for="nameFilter">Station Name:</label>
-        <input type="text" name="nameFilter" id="nameFilter"><br />
-        <label for="minLatFilter">Min Latitude:</label>
-        <input type="text" name="minLatFilter" id="minLatFilter"><br />
-        <label for="maxLatFilter">Max Latitude:</label>
-        <input type="text" name="maxLatFilter" id="maxLatFilter"><br />
-        <label for="minLonFilter">Min Longitude:</label>
-        <input type="text" name="minLonFilter" id="minLonFilter"><br />
-        <label for="maxLonFilter">Max Longitude:</label>
-        <input type="text" name="maxLonFilter" id="maxLonFilter"><br />
-        <input type="submit" name="search" id="querySubmit">
-      </div>
+        <table>
+          <tr>
+            <td><label for="idFilter">ID:</label></td>
+            <td><input type="text" name="idFilter" id="idFilter" maxlength="4"></td>
+          </tr>
+          <tr>
+            <td><label for="stateFilter">State:</label></td>
+            <td><input type="text" name="stateFilter" id="stateFilter" maxlength="2"></td>
+          </tr>
+          <tr>
+            <td><label for="nameFilter">Station Name:</label></td>
+            <td><input type="text" name="nameFilter" id="nameFilter"></td>
+          </tr>
+          <tr>
+            <td><label for="minLatFilter">Latitude:</label></td>
+            <td>
+              <input type="text" name="minLatFilter" id="minLatFilter">
+              to
+              <input type="text" name="maxLatFilter" id="maxLatFilter">
+            </td>
+          </tr>
+          <tr>
+            <td><label for="minLonFilter">Longitude:</label></td>
+            <td>
+              <input type="text" name="minLonFilter" id="minLonFilter">
+              to
+              <input type="text" name="maxLonFilter" id="maxLonFilter">
+            </td>
+          </tr>
+          <tr>
+            <td><input type="submit" name="search" id="querySubmit"></td>
+          </tr>
+        </table>
+
+      </div><br />
       <table id="stations">
         <tr id="headers">
           <th>ID</th>
           <th>State</th>
           <th>Station Name</th>
-          <th>Latitude</th>
-          <th>Longitude</th>
+          <th>Lat.</th>
+          <th>Lon.</th>
         </tr>
         {% for st in stations %}
         <tr>

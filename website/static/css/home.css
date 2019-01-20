@@ -61,3 +61,32 @@
     font-size: 18px;
   }
 }
+
+#filters {
+  border: 5px solid black;
+}
+
+#stations {
+  border-collapse: collapse;
+}
+
+#stations tr {
+  border: 2px solid black;
+}
+
+#stations tr:nth-child(even) {
+  background-color: #f2f2f2;
+  border: 2px solid black;
+}
+
+#stations tr:not(:first-child) td {
+  border: 1px solid black;
+}
+
+#stations tr:not(:first-child):hover {
+  background-color: lightcyan;
+}
+
+.double-scroll {
+  width: 100%;
+}
