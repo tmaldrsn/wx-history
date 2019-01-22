@@ -10,9 +10,44 @@ def is_db_path(db_path):
     return os.path.splitext(db_path)[-1].lower() == ".db"
 
 
-def get_db_cursor(db_path):
-    """Returns a sqlite3 cursor object given a path to a database"""
-    return sqlite3.connect(db_path).cursor()
+def connect_to_db(db_path):
+    """Returns a sqlite3 database connection object from a db path"""
+    try:
+        if not is_db_path(db_path):
+            raise Exception("Observations database does not exist!")
+        else:
+            con = sqlite3.connect(db_path)
+            return con
+    except:
+        raise Exception(
+            "Was not able to connect to the observations database."
+        )
+
+
+def get_adjusted_date(day, obs_day, ref_date=None):
+    if ref_date == None:
+        now_datetime = datetime.datetime.today()
+    else:
+        now_datetime = ref_date
+
+    most_recent_year = now_datetime.year
+    most_recent_month = now_datetime.month
+    most_recent_day = day
+
+    if now_datetime.day == 1 and most_recent_day != 1:
+        most_recent_month -= 1
+        if most_recent_month == 0:
+            most_recent_year -= 1
+            most_recent_month = 12
+    most_recent_date = datetime.date(
+        year=most_recent_year,
+        month=most_recent_month,
+        day=most_recent_day
+    )
+
+    if obs_day != most_recent_day:
+        most_recent_date -= datetime.timedelta(days=1)
+    return most_recent_date.strftime("%m/%d/%Y")
 
 
 def get_observations_request(station_id, timeout=3):

@@ -21,9 +21,9 @@ def invalid_station():
 
 
 @pytest.mark.parametrize("page,title", [
-    ('/', b"<title>NOAA Hourly Weather Observation Database</title>"),
-    ('/stations/', b"<title>Stations List</title>"),
-    ('/search/', b"<title>Search Database</title>")
+    ('/', b"<title>Welcome | NOAA Hourly Observations</title>"),
+    ('/stations/', b"<title>Stations List | NOAA Hourly Observations</title>"),
+    ('/search/', b"<title>Search Database | NOAA Hourly Observations</title>")
 ])
 def test_main_page_titles(client, page, title):
     page = client.get(page)

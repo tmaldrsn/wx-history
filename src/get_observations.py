@@ -10,8 +10,9 @@ import logging
 from logging.config import fileConfig
 from connect import (
     is_db_path,
-    get_db_cursor,
+    connect_to_db,
     get_observations_request,
+    get_adjusted_date,
     get_datetime_string,
     get_datetime,
 )
@@ -43,105 +44,80 @@ forecast_elements = [
 ]
 
 
-def db_insert_row(cursor, station):
-    # TODO: figure out the best way to turn all the crap below into
-    #       an easier to read function to put here.
-    #       ideas:
-    #           * iterate through rows and insert into db
-    #           * iterate by station and insert table data
-    #           * THINK DAMMIT
-    pass
+def create_station_table(cur, station):
+    try:
+        obs_cols = ','.join('"{}"'.format(w) for w in forecast_elements)
+        cur.execute(
+            f"""create table if not exists {station} ({obs_cols}, constraint unq unique (date, time))""")
+    except sqlite3.OperationalError:
+        logger.info(f"Table not created for {station}")
+
+
+def get_observation_list(station):
+    try:
+        req = get_observations_request(station)
+        soup = BeautifulSoup(req, 'html.parser')
+    except (OSError, URLError):
+        logger.warning(f"Station {station} request timed out!!")
+        return [], "TO"
+
+    try:
+        forecast_table = soup.find_all('table')[3]
+        forecast_rows = forecast_table.find_all('tr')[3:-3]
+    except IndexError:
+        logger.warning(f"Station {station} data not available.")
+        return [], "NA"
+    else:
+        if not forecast_rows:
+            logger.warning(f"Station {station} data not available.")
+            return [], "NA"
+
+    most_recent_date = int(forecast_rows[0].find_all('td')[0].string)
+    data_rows = []
+    for _, row in enumerate(forecast_rows):
+        obs_date = int(row.find_all('td')[0].string)
+        obs_ordinal = [get_adjusted_date(most_recent_date, obs_date)]
+        obs_list = [val.string for val in row.find_all('td')[1:]]
+        data_rows.append(obs_ordinal + obs_list)
+
+    if len(data_rows) < 30:
+        return data_rows, "I"
+
+    return data_rows, "G"
 
 
 def main():
-    # Create a database
-    try:
-        if not is_db_path(DB_PATH):
-            raise Exception("Observations database does not exist!")
-        else:
-            con = sqlite3.connect(DB_PATH)
-    except:
-        raise Exception(
-            "Was not able to connect to the observations database."
-        )
-
+    con = connect_to_db(DB_PATH)
     logger.info("Successfully connected to the observations database.")
 
     cur = con.cursor()
     stations = list(cur.execute("select * from station"))
 
     start_time = time.time()
-    timed_out = []
-    incomplete = []
-    station_na = []
+    timed_out, incomplete, not_available = [], [], []
     for i, station in enumerate(stations):
         # Create a table for the station
-        try:
-            obs_cols = ','.join('"{}"'.format(w) for w in forecast_elements)
-            cur.execute(
-                f"""create table if not exists {station[0]} ({obs_cols}, constraint unq unique (date, time))""")
-        except sqlite3.OperationalError:
-            logger.info(f"Table not created for {station[0]}")
-            pass
+        station = station[0]
+        create_station_table(cur, station)
 
-        try:
-            req = get_observations_request(station[0])
-            soup = BeautifulSoup(req, 'html.parser')
-        except (OSError, URLError):
-            logger.warning(f"Station {station[0]} request timed out!!")
-            timed_out.append(station[0])
+        data_rows, status = get_observation_list(station)
+
+        if status == "TO":
+            timed_out.append(station)
             continue
-
-        try:
-            forecast_table = soup.find_all('table')[3]
-            forecast_rows = forecast_table.find_all('tr')[3:-3]
-        except IndexError:
-            logger.warning(f"Station {station[0]} data not available.")
-            station_na.append(station[0])
+        elif status == "NA":
+            not_available.append(station)
             continue
-        else:
-            if not forecast_rows:
-                logger.warning(f"Station {station[0]} data not available.")
-                station_na.append(station[0])
-                continue
-            elif len(forecast_rows) < 30:
-                logger.warning(f"Station {station[0]} data incomplete.")
-                incomplete.append(station[0])
-
-        now_datetime = datetime.datetime.today()
-        most_recent_year = now_datetime.year
-        most_recent_month = now_datetime.month
-        most_recent_day = int(forecast_rows[0].find_all('td')[0].string)
-
-        if now_datetime.day == 1 and most_recent_day != 1:
-            most_recent_month -= 1
-            if most_recent_month == 0:
-                most_recent_year -= 1
-                most_recent_month = 12
-        most_recent_date = datetime.date(
-            year=most_recent_year,
-            month=most_recent_month,
-            day=most_recent_day
-        )
-
-        data_rows = []
-        for _, row in enumerate(forecast_rows):
-            obs_date = int(row.find_all('td')[0].string)
-            if obs_date != most_recent_date.day:
-                most_recent_date -= datetime.timedelta(days=1)
-
-            #obs_ordinal = [most_recent_date.toordinal()]
-            obs_ordinal = [most_recent_date.strftime("%m/%d/%Y")]
-            obs_list = [val.string for val in row.find_all('td')[1:]]
-            data_rows.append(obs_ordinal + obs_list)
+        elif status == "I":
+            incomplete.append(station)
 
         # Insert data into forecast table
         qmarks = ','.join(['?' for i in range(len(forecast_elements))])
         cur.executemany(
-            f"""insert or replace into {station[0]} values ({qmarks})""", data_rows
+            f"""insert or replace into {station} values ({qmarks})""", data_rows
         )
         logger.debug(
-            f"{station[0]} table ({i+1-len(timed_out)}/{len(stations)}) updated."
+            f"{station} table ({i+1-len(timed_out)}/{len(stations)}) updated."
         )
 
     con.commit()
@@ -154,51 +130,30 @@ def main():
     current_round = 1
     while len(timed_out) > 0 and current_round <= 10:
         current_round += 1
-        for i, station in enumerate(timed_out):
-            station = timed_out[i]
-            try:
-                req = get_observations_request(station)
-                soup = BeautifulSoup(req, 'html.parser')
-            except (OSError, URLError):
-                logger.warning(
-                    f"Station {station} request timed out again... "
-                    f"this time in round {current_round}"
-                )
+        for i, station in enumerate(stations):
+            # Create a table for the station
+            create_station_table(cur, station)
+
+            data_rows, status = get_observation_list(station)
+
+            if status == "TO":
+                timed_out.append(station)
                 continue
-
-            now_datetime = datetime.datetime.today()
-            most_recent_year = now_datetime.year
-            most_recent_month = now_datetime.month
-            most_recent_day = int(forecast_rows[0].find_all('td')[0].string)
-
-            if now_datetime.day == 1 and most_recent_day != 1:
-                most_recent_month -= 1
-                if most_recent_month == 0:
-                    most_recent_year -= 1
-                    most_recent_month = 12
-            most_recent_date = datetime.date(
-                year=most_recent_year,
-                month=most_recent_month,
-                day=most_recent_day
-            )
-
-            data_rows = []
-            for _, row in enumerate(forecast_rows):
-                obs_date = int(row.find_all('td')[0].string)
-                if obs_date != most_recent_date.day:
-                    most_recent_date -= datetime.timedelta(days=1)
-
-                obs_ordinal = [most_recent_date.strftime("%m/%d/%Y")]
-                obs_list = [val.string for val in row.find_all('td')[1:]]
-                data_rows.append(obs_ordinal + obs_list)
+            elif status == "NA":
+                not_available.append(station)
+                continue
+            elif status == "I":
+                incomplete.append(station)
 
             # Insert data into forecast table
             qmarks = ','.join(['?' for i in range(len(forecast_elements))])
             cur.executemany(
-                f"""insert or replace into {station} values ({qmarks})""", data_rows)
-            logger.debug(
-                f"{station} table ({len(stations)-len(timed_out)+i+1}/{len(stations)-len(station_na)}) updated."
+                f"""insert or replace into {station} values ({qmarks})""", data_rows
             )
+            logger.debug(
+                f"{station} table ({i+1-len(timed_out)}/{len(stations)}) updated."
+            )
+
             timed_out[i] = ''
 
         timed_out = list(filter(lambda x: x != '', timed_out))
@@ -217,6 +172,12 @@ def main():
         logger.warning(
             f"{len(incomplete)} stations had incomplete data: "
             f"{', '.join(incomplete)}."
+        )
+
+    if len(not_available) != 0:
+        logger.warning(
+            f"{len(not_available)} stations were not available: "
+            f"{','.join(not_available)}."
         )
 
     con.commit()
