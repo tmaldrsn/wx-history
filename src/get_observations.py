@@ -13,8 +13,6 @@ from connect import (
     connect_to_db,
     get_observations_request,
     get_adjusted_date,
-    get_datetime_string,
-    get_datetime,
 )
 from bs4 import BeautifulSoup
 
@@ -49,7 +47,7 @@ def create_station_table(cur, station):
         obs_cols = ','.join('"{}"'.format(w) for w in forecast_elements)
         cur.execute(
             f"""create table if not exists {station} ({obs_cols}, constraint unq unique (date, time))""")
-    except sqlite3.OperationalError:
+    except sqlite3.OperationalError:  # pragma: no cover
         logger.info(f"Table not created for {station}")
 
 
@@ -64,10 +62,10 @@ def get_observation_list(station):
     try:
         forecast_table = soup.find_all('table')[3]
         forecast_rows = forecast_table.find_all('tr')[3:-3]
-    except IndexError:
+    except IndexError:  # pragma: no cover
         logger.warning(f"Station {station} data not available.")
         return [], "NA"
-    else:
+    else:  # pragma: no cover
         if not forecast_rows:
             logger.warning(f"Station {station} data not available.")
             return [], "NA"
@@ -130,7 +128,7 @@ def main():
     current_round = 1
     while len(timed_out) > 0 and current_round <= 10:
         current_round += 1
-        for i, station in enumerate(stations):
+        for i, station in enumerate(timed_out):
             # Create a table for the station
             create_station_table(cur, station)
 
@@ -151,7 +149,7 @@ def main():
                 f"""insert or replace into {station} values ({qmarks})""", data_rows
             )
             logger.debug(
-                f"{station} table ({i+1-len(timed_out)}/{len(stations)}) updated."
+                f"{station} table ({len(timed_out) - (i+1)}/{len(stations)}) updated."
             )
 
             timed_out[i] = ''
@@ -163,7 +161,7 @@ def main():
                 f"{len(timed_out)} stations still need updated."
             )
 
-    if len(timed_out) != 0:
+    if len(timed_out) != 0:  # pragma: no cover
         logger.warning(
             f"{len(timed_out)} stations could not be updated: "
             f"{', '.join(timed_out)}."
