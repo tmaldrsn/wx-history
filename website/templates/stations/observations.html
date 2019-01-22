@@ -1,161 +1,156 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="../../static/css/observations.css">
+<script src="../../static/js/jquery.doubleScroll.js"></script>
+<script>
+  $(document).ready(function () {
+    $('.double-scroll').doubleScroll();
+  });
+</script>
+{% endblock %}
 
-  <head>
-    <title>{{ station[0][0] }} Observations</title>
-    <link rel="stylesheet" type="text/css" href="../../static/css/observations.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../../static/css/home.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="../../static/js/jquery.doubleScroll.js"></script>
-    <script>
-      $(document).ready(function () {
-        $('.double-scroll').doubleScroll();
-      });
-    </script>
-  </head>
+{% block page_title %} {{station[0][0]}} Observations {% endblock %}
 
-  <body>
-    <div id="mySidenav" class="sidenav">
-      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <a href="/" class="activepage">Home</a>
-      <a href="/stations/">Stations</a>
-      <a href="/search/">Search Data</a>
-    </div>
+{% block body %}
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="/" class="activepage">Home</a>
+  <a href="/stations/">Stations</a>
+  <a href="/search/">Search Data</a>
+</div>
 
-    <div id="main">
-      <a onclick="openNav()"><i class="fa fa-bars"></i></a>
-      <h1>Data for {{ station[0][0] }} - {{ station[0][2] }}</h1>
-      <div style="overflow-x:auto;" class="double-scroll">
-        <table>
-          <tr class="header">
-            <th rowspan=3 style="width:80px;">Date</th>
-            <th rowspan=3 style="width:50px;">Time (local)</th>
-            <th rowspan=3 style="width:50px;">Wind (mph)</th>
-            <th rowspan=3 style="width:50px;">Vis. (mi.)</th>
-            <th rowspan=3 style="width:70px">Weather</th>
-            <th rowspan=3 style="width:70px">Sky Cond.</th>
-            <th rowspan=1 style="width:150px;" colspan=4>Temperature (&#8457;)</th>
-            <th rowspan=3 style="width:75px;">Humidity</th>
-            <th rowspan=3 style="width:50px;">Heat Index</th>
-            <th rowspan=3 style="width:50px;">Wind Chill</th>
-            <th rowspan=1 style="width:120px;" colspan=2>Pressure</th>
-            <th rowspan=1 style="width:100px;" colspan=3>Precipitaion (in.)</th>
-          </tr>
-          <tr class="header">
-            <th rowspan=2 style="width:30px;">Air</th>
-            <th rowspan=2 style="width:30px;">Dwpt</th>
-            <th rowspan=1 style="width:80px;" colspan=2>6 hour</th>
-            <th rowspan=2 style="width:70px;">Altimeter (in)</th>
-            <th rowspan=2 style="width:50px;">Sea level (mb)</th>
-            <th rowspan=2 style="width:33px;">1 hr</th>
-            <th rowspan=2 style="width:34px;">3 hr</th>
-            <th rowspan=2 style="width:33px;">6 hr</th>
-          </tr>
-          <tr class="header">
-            <th rowspan=1 style="width:40px;" colspan=1>Max.</th>
-            <th rowspan=1 style="width:40px;" colspan=1>Min.</th>
-          </tr>
+<div id="main">
+  <a onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <h1>Data for {{ station[0][0] }} - {{ station[0][2] }}</h1>
+  <div style="overflow-x:auto;" class="double-scroll">
+    <table>
+      <tr class="header">
+        <th rowspan=3 style="width:80px;">Date</th>
+        <th rowspan=3 style="width:50px;">Time (local)</th>
+        <th rowspan=3 style="width:50px;">Wind (mph)</th>
+        <th rowspan=3 style="width:50px;">Vis. (mi.)</th>
+        <th rowspan=3 style="width:70px">Weather</th>
+        <th rowspan=3 style="width:70px">Sky Cond.</th>
+        <th rowspan=1 style="width:150px;" colspan=4>Temperature (&#8457;)</th>
+        <th rowspan=3 style="width:75px;">Humidity</th>
+        <th rowspan=3 style="width:50px;">Heat Index</th>
+        <th rowspan=3 style="width:50px;">Wind Chill</th>
+        <th rowspan=1 style="width:120px;" colspan=2>Pressure</th>
+        <th rowspan=1 style="width:100px;" colspan=3>Precipitaion (in.)</th>
+      </tr>
+      <tr class="header">
+        <th rowspan=2 style="width:30px;">Air</th>
+        <th rowspan=2 style="width:30px;">Dwpt</th>
+        <th rowspan=1 style="width:80px;" colspan=2>6 hour</th>
+        <th rowspan=2 style="width:70px;">Altimeter (in)</th>
+        <th rowspan=2 style="width:50px;">Sea level (mb)</th>
+        <th rowspan=2 style="width:33px;">1 hr</th>
+        <th rowspan=2 style="width:34px;">3 hr</th>
+        <th rowspan=2 style="width:33px;">6 hr</th>
+      </tr>
+      <tr class="header">
+        <th rowspan=1 style="width:40px;" colspan=1>Max.</th>
+        <th rowspan=1 style="width:40px;" colspan=1>Min.</th>
+      </tr>
 
-          {% for ob in obs %}
-          <tr>
-            <td>{{ ob[0] }}</td>
-            <td>{{ ob[1] }}</td>
-            <td>{{ ob[2] }}</td>
-            <td>{{ ob[3] }}</td>
-            <td>{{ ob[4] }}</td>
-            <td>{{ ob[5] }}</td>
-            <td>{{ ob[6] }}</td>
-            <td>{{ ob[7] }}</td>
-            <td>{% if ob[8] %}{{ ob[8] }}{% endif %}</td>
-            <td>{% if ob[9] %}{{ ob[9] }}{% endif %}</td>
-            <td>{{ ob[10] }}</td>
-            <td>{% if ob[11] %}{{ ob[11] }}{% endif %}</td>
-            <td>{% if ob[12] %}{{ ob[12] }}{% endif %}</td>
-            <td>{% if ob[13] %}{{ ob[13] }}{% endif %}</td>
-            <td>{% if ob[14] %}{{ ob[14] }}{% endif %}</td>
-            <td>{% if ob[15] %}{{ ob[15] }}{% endif %}</td>
-            <td>{% if ob[16] %}{{ ob[16] }}{% endif %}</td>
-            <td>{% if ob[17] %}{{ ob[17] }}{% endif %}</td>
-          </tr>
-          {% endfor %}
-          <tr class="
+      {% for ob in obs %}
+      <tr>
+        <td>{{ ob[0] }}</td>
+        <td>{{ ob[1] }}</td>
+        <td>{{ ob[2] }}</td>
+        <td>{{ ob[3] }}</td>
+        <td>{{ ob[4] }}</td>
+        <td>{{ ob[5] }}</td>
+        <td>{{ ob[6] }}</td>
+        <td>{{ ob[7] }}</td>
+        <td>{% if ob[8] %}{{ ob[8] }}{% endif %}</td>
+        <td>{% if ob[9] %}{{ ob[9] }}{% endif %}</td>
+        <td>{{ ob[10] }}</td>
+        <td>{% if ob[11] %}{{ ob[11] }}{% endif %}</td>
+        <td>{% if ob[12] %}{{ ob[12] }}{% endif %}</td>
+        <td>{% if ob[13] %}{{ ob[13] }}{% endif %}</td>
+        <td>{% if ob[14] %}{{ ob[14] }}{% endif %}</td>
+        <td>{% if ob[15] %}{{ ob[15] }}{% endif %}</td>
+        <td>{% if ob[16] %}{{ ob[16] }}{% endif %}</td>
+        <td>{% if ob[17] %}{{ ob[17] }}{% endif %}</td>
+      </tr>
+      {% endfor %}
+      <tr class="
               header">
-            <th rowspan=3>Date</th>
-            <th rowspan=3>Time (local)</th>
-            <th rowspan=3>Wind (mph)</th>
-            <th rowspan=3>Vis. (mi.)</th>
-            <th rowspan=3>Weather</th>
-            <th rowspan=3>Sky Cond.</th>
-            <th rowspan=2>Air</th>
-            <th rowspan=2>Dwpt</th>
-            <th rowspan=1 colspan=1>Max.</th>
-            <th rowspan=1 colspan=1>Min.</th>
-            <th rowspan=3>Humidity</th>
-            <th rowspan=3>Heat Index</th>
-            <th rowspan=3>Wind Chill</th>
-            <th rowspan=2>altimeter (in)</th>
-            <th rowspan=2>sea level (mb)</th>
-            <th rowspan=2>1 hr</th>
-            <th rowspan=2>3 hr</th>
-            <th rowspan=2>6 hr</th>
-          </tr>
-          <tr class="header">
-            <th rowspan=1 colspan=2>6 hour</th>
-          </tr>
-          <tr class="header">
-            <th rowspan=1 colspan=4>Temperature (&#8457;)</th>
-            <th rowspan=1 colspan=2>Pressure</th>
-            <th rowspan=1 colspan=3>Precipitaion (in.)</th>
-          </tr>
-        </table>
-      </div>
+        <th rowspan=3>Date</th>
+        <th rowspan=3>Time (local)</th>
+        <th rowspan=3>Wind (mph)</th>
+        <th rowspan=3>Vis. (mi.)</th>
+        <th rowspan=3>Weather</th>
+        <th rowspan=3>Sky Cond.</th>
+        <th rowspan=2>Air</th>
+        <th rowspan=2>Dwpt</th>
+        <th rowspan=1 colspan=1>Max.</th>
+        <th rowspan=1 colspan=1>Min.</th>
+        <th rowspan=3>Humidity</th>
+        <th rowspan=3>Heat Index</th>
+        <th rowspan=3>Wind Chill</th>
+        <th rowspan=2>altimeter (in)</th>
+        <th rowspan=2>sea level (mb)</th>
+        <th rowspan=2>1 hr</th>
+        <th rowspan=2>3 hr</th>
+        <th rowspan=2>6 hr</th>
+      </tr>
+      <tr class="header">
+        <th rowspan=1 colspan=2>6 hour</th>
+      </tr>
+      <tr class="header">
+        <th rowspan=1 colspan=4>Temperature (&#8457;)</th>
+        <th rowspan=1 colspan=2>Pressure</th>
+        <th rowspan=1 colspan=3>Precipitaion (in.)</th>
+      </tr>
+    </table>
+  </div>
 
-      <div class="pagination">
+  <div class="pagination">
 
-        {% if page == 1 %}
-        <a class="pageLink" id="activePage" href="./1">1</a>
-        <a class="pageLink" href="./2">2</a>
-        <a class="pageLink" href="./3">3</a>
-        <a class="pageLink" href="./4">4</a>
-        <a class="pageLink" href="./5">5</a>
-        <a id="nextPage" href="./{{ page + 1 }}">&raquo;</a>
-        {% elif page == 2 %}
-        <a id="prevPage" href="./ {{ page -  1}}">&laquo;</a>
-        <a class="pageLink" href="./1">1</a>
-        <a class="pageLink" id="activePage" href="./2">2</a>
-        <a class="pageLink" href="./3">3</a>
-        <a class="pageLink" href="./4">4</a>
-        <a class="pageLink" href="./5">5</a>
-        <a id="nextPage" href="./{{ page + 1 }}">&raquo;</a>
-        {% elif page >= 3 %}
-        {% if page == max_page %}
-        <a id="prevPage" href="./{{ page-1 }}">&laquo;</a>
-        <a class="pageLink" href="./{{ page-2 }}">{{ page-2 }}</a>
-        <a class="pageLink" href="./{{ page-1}}">{{ page-1 }}</a>
-        <a class="pageLink" id="activePage" href="./{{ page }}">{{ page }}</a>
-        {% elif page == max_page-1 %}
-        <a id="prevPage" href="./{{ page-1 }}">&laquo;</a>
-        <a class="pageLink" href="./{{ page-2 }}">{{ page-2 }}</a>
-        <a class="pageLink" href="./{{ page-1}}">{{ page-1 }}</a>
-        <a class="pageLink" id="activePage" href="./{{ page }}">{{ page }}</a>
-        <a class="pageLink" href="./{{ page+1 }}">{{ page+1 }}</a>
-        <a id="nextPage" href="./{{ page+1 }}">&raquo;</a>
-        {% else %}
-        <a id="prevPage" href="./{{ page-1 }}">&laquo;</a>
-        <a class="pageLink" href="./{{ page-2 }}">{{ page-2 }}</a>
-        <a class="pageLink" href="./{{ page-1}}">{{ page-1 }}</a>
-        <a class="pageLink" id="activePage" href="./{{ page }}">{{ page }}</a>
-        <a class="pageLink" href="./{{ page+1 }}">{{ page+1 }}</a>
-        <a class="pageLink" href="./{{ page+2 }}">{{ page+2 }}</a>
-        <a id="nextPage" href="./{{ page+1 }}">&raquo;</a>
-        {% endif %}
-        {% else %}
-        <p>Page not available... <a href="./1">Go back?</a></p>
-        {% endif %}
-      </div>
-    </div>
-    <script src="../../static/js/home.js"></script>
-  </body>
-
-</html>
+    {% if page == 1 %}
+    <a class="pageLink" id="activePage" href="./1">1</a>
+    <a class="pageLink" href="./2">2</a>
+    <a class="pageLink" href="./3">3</a>
+    <a class="pageLink" href="./4">4</a>
+    <a class="pageLink" href="./5">5</a>
+    <a id="nextPage" href="./{{ page + 1 }}">&raquo;</a>
+    {% elif page == 2 %}
+    <a id="prevPage" href="./ {{ page -  1}}">&laquo;</a>
+    <a class="pageLink" href="./1">1</a>
+    <a class="pageLink" id="activePage" href="./2">2</a>
+    <a class="pageLink" href="./3">3</a>
+    <a class="pageLink" href="./4">4</a>
+    <a class="pageLink" href="./5">5</a>
+    <a id="nextPage" href="./{{ page + 1 }}">&raquo;</a>
+    {% elif page >= 3 %}
+    {% if page == max_page %}
+    <a id="prevPage" href="./{{ page-1 }}">&laquo;</a>
+    <a class="pageLink" href="./{{ page-2 }}">{{ page-2 }}</a>
+    <a class="pageLink" href="./{{ page-1}}">{{ page-1 }}</a>
+    <a class="pageLink" id="activePage" href="./{{ page }}">{{ page }}</a>
+    {% elif page == max_page-1 %}
+    <a id="prevPage" href="./{{ page-1 }}">&laquo;</a>
+    <a class="pageLink" href="./{{ page-2 }}">{{ page-2 }}</a>
+    <a class="pageLink" href="./{{ page-1}}">{{ page-1 }}</a>
+    <a class="pageLink" id="activePage" href="./{{ page }}">{{ page }}</a>
+    <a class="pageLink" href="./{{ page+1 }}">{{ page+1 }}</a>
+    <a id="nextPage" href="./{{ page+1 }}">&raquo;</a>
+    {% else %}
+    <a id="prevPage" href="./{{ page-1 }}">&laquo;</a>
+    <a class="pageLink" href="./{{ page-2 }}">{{ page-2 }}</a>
+    <a class="pageLink" href="./{{ page-1}}">{{ page-1 }}</a>
+    <a class="pageLink" id="activePage" href="./{{ page }}">{{ page }}</a>
+    <a class="pageLink" href="./{{ page+1 }}">{{ page+1 }}</a>
+    <a class="pageLink" href="./{{ page+2 }}">{{ page+2 }}</a>
+    <a id="nextPage" href="./{{ page+1 }}">&raquo;</a>
+    {% endif %}
+    {% else %}
+    <p>Page not available... <a href="./1">Go back?</a></p>
+    {% endif %}
+  </div>
+</div>
+<script src="../static/js/home.js"></script>
+{% endblock %}

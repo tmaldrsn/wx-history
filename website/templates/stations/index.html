@@ -1,84 +1,79 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
+{% block head %}
+{{ super() }}
+{% endblock %}
 
-  <head>
-    <title>Stations List</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../static/css/home.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  </head>
+{% block page_title %}Stations List{% endblock %}
 
-  <body>
-    <div id="mySidenav" class="sidenav">
-      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <a href="/" class="activepage">Home</a>
-      <a href="/stations/">Stations</a>
-      <a href="/search/">Search Data</a>
-    </div>
+{% block body %}
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="/" class="activepage">Home</a>
+  <a href="/stations/">Stations</a>
+  <a href="/search/">Search Data</a>
+</div>
 
-    <div id="main">
-      <a onclick="openNav()"><i class="fa fa-bars"></i></a>
-      <div id="filtersToggle">
-        <u onclick="toggleFilterOptions()">Filter Results</u>
-        - <span id="numResults">2190</span> Results
-      </div>
-      <div id="filters" hidden>
-        <table>
-          <tr>
-            <td><label for="idFilter">ID:</label></td>
-            <td><input type="text" name="idFilter" id="idFilter" maxlength="4"></td>
-          </tr>
-          <tr>
-            <td><label for="stateFilter">State:</label></td>
-            <td><input type="text" name="stateFilter" id="stateFilter" maxlength="2"></td>
-          </tr>
-          <tr>
-            <td><label for="nameFilter">Station Name:</label></td>
-            <td><input type="text" name="nameFilter" id="nameFilter"></td>
-          </tr>
-          <tr>
-            <td><label for="minLatFilter">Latitude:</label></td>
-            <td>
-              <input type="text" name="minLatFilter" id="minLatFilter">
-              to
-              <input type="text" name="maxLatFilter" id="maxLatFilter">
-            </td>
-          </tr>
-          <tr>
-            <td><label for="minLonFilter">Longitude:</label></td>
-            <td>
-              <input type="text" name="minLonFilter" id="minLonFilter">
-              to
-              <input type="text" name="maxLonFilter" id="maxLonFilter">
-            </td>
-          </tr>
-          <tr>
-            <td><input type="submit" name="search" id="querySubmit"></td>
-          </tr>
-        </table>
+<div id="main">
+  <a onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <div id="filtersToggle">
+    <u onclick="toggleFilterOptions()">Filter Results</u>
+    - <span id="numResults">2190</span> Results
+  </div>
+  <div id="filters" hidden>
+    <table>
+      <tr>
+        <td><label for="idFilter">ID:</label></td>
+        <td><input type="text" name="idFilter" id="idFilter" maxlength="4"></td>
+      </tr>
+      <tr>
+        <td><label for="stateFilter">State:</label></td>
+        <td><input type="text" name="stateFilter" id="stateFilter" maxlength="2"></td>
+      </tr>
+      <tr>
+        <td><label for="nameFilter">Station Name:</label></td>
+        <td><input type="text" name="nameFilter" id="nameFilter"></td>
+      </tr>
+      <tr>
+        <td><label for="minLatFilter">Latitude:</label></td>
+        <td>
+          <input type="text" name="minLatFilter" id="minLatFilter">
+          to
+          <input type="text" name="maxLatFilter" id="maxLatFilter">
+        </td>
+      </tr>
+      <tr>
+        <td><label for="minLonFilter">Longitude:</label></td>
+        <td>
+          <input type="text" name="minLonFilter" id="minLonFilter">
+          to
+          <input type="text" name="maxLonFilter" id="maxLonFilter">
+        </td>
+      </tr>
+      <tr>
+        <td><input type="submit" name="search" id="querySubmit"></td>
+      </tr>
+    </table>
 
-      </div><br />
-      <table id="stations">
-        <tr id="headers">
-          <th>ID</th>
-          <th>State</th>
-          <th>Station Name</th>
-          <th>Lat.</th>
-          <th>Lon.</th>
-        </tr>
-        {% for st in stations %}
-        <tr>
-          <td><a href="./{{st[0]}}/1">{{st[0]}}</a></td>
-          <td>{{st[1]}}</td>
-          <td>{{st[2]}}</td>
-          <td>{{st[3]}}</td>
-          <td>{{st[4]}}</td>
-        </tr>
-        {% endfor %}
-      </table>
-    </div>
-    <script src="../static/js/filter.js"></script>
-    <script src="../static/js/home.js"></script>
-  </body>
-
-</html>
+  </div><br />
+  <table id="stations">
+    <tr id="headers">
+      <th>ID</th>
+      <th>State</th>
+      <th>Station Name</th>
+      <th>Lat.</th>
+      <th>Lon.</th>
+    </tr>
+    {% for st in stations %}
+    <tr>
+      <td><a href="./{{st[0]}}/1">{{st[0]}}</a></td>
+      <td>{{st[1]}}</td>
+      <td>{{st[2]}}</td>
+      <td>{{st[3]}}</td>
+      <td>{{st[4]}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+<script src="../static/js/filter.js"></script>
+<script src="../static/js/home.js"></script>
+{% endblock %}
