@@ -23,7 +23,7 @@ def show_station_list():
 
 
 @mod.route('/<s>/<page>')
-def show_station(s, page):
+def show_station(s, page=1):
     con = sqlite3.connect("observations.db")
     cur = con.cursor()
 
