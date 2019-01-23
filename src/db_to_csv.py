@@ -1,16 +1,20 @@
+from connect import is_db_path
 import sqlite3
 import csv
-
-from connect import is_db_path, get_db_cursor
+import logging
+from logging.config import fileConfig
+fileConfig('logging_config.ini')
+logger = logging.getLogger()
 
 DB = 'observations.db'
 
 
 def convert_db_to_csv(db_path):
-    if is_db_path(db_path):
-        cur = get_db_cursor(db_path)
-    else:
+    if not is_db_path(db_path):
         raise Exception(f"{db_path} is not a valid database file.")
+
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
 
     station_query = "select * from station"
     station_list = list(cur.execute(station_query))
@@ -21,6 +25,7 @@ def convert_db_to_csv(db_path):
 
         for station in station_list:
             writer.writerow(station)
+        logger.info("Station data written.")
 
         for station in station_list:
             obs_query = f"select * from {station[0]} order by substr(date, 7, 4), substr(date, 1, 2), substr(date, 4, 2), time"
@@ -28,6 +33,8 @@ def convert_db_to_csv(db_path):
 
             for obs in observations:
                 writer.writerow(tuple([station[0]] + list(obs)))
+            logger.debug(f"{station[0]} data written to csv file.")
+        logger.info("Observation data complete.")
 
 
 if __name__ == '__main__':
