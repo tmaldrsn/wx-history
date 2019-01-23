@@ -12,7 +12,7 @@ DB = "observations.db"
 if __name__ == "__main__":
     try:
         con = sqlite3.connect(DB)
-    except:
+    except:  # pragma: no cover
         raise Exception("Was not able to connect to observations database")
 
     cur = con.cursor()

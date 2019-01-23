@@ -15,7 +15,7 @@ if __name__ == "__main__":
     # Create database and table if they do not already exist
     try:
         con = sqlite3.connect(DB)
-    except:
+    except:  # pragma: no cover
         raise Exception(f"Was not able to connect to the stations database")
 
     cur = con.cursor()
