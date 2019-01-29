@@ -23,10 +23,13 @@ def convert_db_to_csv(db_path):
         writer = csv.writer(csvfile, delimiter=',',
                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
 
+        writer.writerow(['ID', 'State', 'Name', 'Latitude', 'Longitude'])
         for station in station_list:
             writer.writerow(station)
         logger.info("Station data written.")
 
+        writer.writerow(['Station', 'Date', 'Time', 'Wind', 'Visibility', 'Weather', 'Sky Condition', 'Air Temperature', 'Dew Point', '6HR Max', '6HR Min',
+                         'Humidity', 'Wind Chill', 'Heat Index', 'Altimeter Pressure', 'Sea Level Pressure', '1HR Precip', '3HR Precip', '6HR Precip'])
         for station in station_list:
             obs_query = f"select * from {station[0]} order by substr(date, 7, 4), substr(date, 1, 2), substr(date, 4, 2), time"
             observations = list(cur.execute(obs_query))
@@ -34,7 +37,7 @@ def convert_db_to_csv(db_path):
             for obs in observations:
                 writer.writerow(tuple([station[0]] + list(obs)))
             logger.debug(f"{station[0]} data written to csv file.")
-        logger.info("Observation data complete.")
+        logger.info("Observation data to csv complete.")
 
 
 if __name__ == '__main__':
