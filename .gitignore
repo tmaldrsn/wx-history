@@ -10,6 +10,7 @@ logs/
 .vscode
 
 observations.csv
+observations.db
 observations.db-journal
 
 .coverage
