@@ -1,12 +1,12 @@
 import os
 import pytest
-from website import app
+from website import server
 
 
 @pytest.fixture
 def client():
-    app.config['TESTING'] = True
-    client = app.test_client()
+    server.config['TESTING'] = True
+    client = server.test_client()
     return client
 
 

@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block page_title %}Stations List{% endblock %}
+
+
+{% block body %}
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="/" class="activepage">Home</a>
+  <a href="/stations/">Stations</a>
+  <a href="/search/">Search Data</a>
+</div>
+
+<div id="main">
+  <h1>{{ s }}</h1>
+  <iframe src='http://localhost:8050' height="640" width="960"></iframe>
+</div>
+{% endblock %}
