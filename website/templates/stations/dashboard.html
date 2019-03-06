@@ -13,8 +13,57 @@
   <a href="/search/">Search Data</a>
 </div>
 
-<div id="main">
-  <h1>{{ s }}</h1>
+<div id="currentObs">
+  <h1>{{ station_info[0][2] }}</h1>
+  <h2>Current Observations:</h2>
+  <table>
+    <tr>
+      <th>Current Weather:</th>
+      <td>{{ current_info[0][4] }}</td>
+    </tr>
+    <tr>
+      <th>Temperature:</th>
+      <td>{{ current_info[0][6] }}</td>
+    </tr>
+    <tr>
+      <th>Dew Point:</th>
+      <td>{{ current_info[0][7] }}</td>
+    </tr>
+    <tr>
+      <th>Humidity:</th>
+      <td>{{ current_info[0][10] }}</td>
+    </tr>
+    <tr>
+      <th>Wind Speed:</th>
+      <td>{{ current_info[0][2] }}</td>
+    </tr>
+    <tr>
+      <th>Barometric Pressure:</th>
+      <td>{{ current_info[0][13] }} in {% if current_info[0][14] != "NA" %} ({{ current_info[0][14] }}
+        mb) {% endif %}</td>
+    </tr>
+    <tr>
+      <th>Visibility:</th>
+      <td>{{ current_info[0][3] }} mi</td>
+    </tr>
+    {% if current_info[0][11] != "NA" %}
+    <tr>
+      <th>Wind Chill:</th>
+      <td>{{ current_info[0][11] }}</td>
+    </tr>
+    {% endif %}
+    {% if current_info[0][12] != "NA" %}
+    <tr>
+      <th>Heat Index:</th>
+      <td>{{ current_info[0][12] }}</td>
+    </tr>
+    {% endif %}
+    <tr>
+      <th>Last Updated:</th>
+      <td>{{ current_info[0][0] + " " + current_info[0][1] }}</td>
+    </tr>
+  </table>
   <iframe src='http://localhost:8050' height="640" width="960"></iframe>
 </div>
+
 {% endblock %}

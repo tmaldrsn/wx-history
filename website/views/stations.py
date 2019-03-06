@@ -126,7 +126,17 @@ def show_station_list():
 
 @mod.route('/<s>/')
 def show_station_information(s):
-    return render_template('stations/dashboard.html', station=s)
+    con = sqlite3.connect("observations.db")
+    cur = con.cursor()
+
+    query = f"select * from station where id='{s}'"
+    station_info = list(cur.execute(query))
+
+    query = f"select * from {s} limit 1"
+    current_info = list(cur.execute(query))
+
+    con.close()
+    return render_template('stations/dashboard.html', station_info=station_info, current_info=current_info)
 
 
 @mod.route('/<s>/<page>')
