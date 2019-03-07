@@ -19,53 +19,54 @@
   <table>
     <tr>
       <th style="text-align: right;">Current Weather:</th>
-      <td>{{ current_info[0][4] }}</td>
+      <td>{{ current_info[0][3] }}</td>
     </tr>
     <tr>
       <th style="text-align: right;">Temperature:</th>
-      <td>{{ current_info[0][6] }}</td>
+      <td>{{ current_info[0][5] }}&#8457;</td>
     </tr>
     <tr>
       <th style="text-align: right;"> Dew Point:</th>
-      <td>{{ current_info[0][7] }}</td>
+      <td>{{ current_info[0][6] }}&#8457;</td>
     </tr>
     <tr>
       <th style="text-align: right;">Humidity:</th>
-      <td>{{ current_info[0][10] }}</td>
+      <td>{{ current_info[0][9] }}%</td>
     </tr>
     <tr>
       <th style="text-align: right;">Wind Speed:</th>
-      <td>{{ current_info[0][2] }}</td>
+      <td>{{ current_info[0][1] }}</td>
     </tr>
     <tr>
       <th style="text-align: right;">Air Pressure:</th>
-      <td>{{ current_info[0][13] }} in {% if current_info[0][14] != "NA" %} ({{ current_info[0][14] }}
+      <td>{{ current_info[0][12] }} in {% if current_info[0][13] != "NA" %} ({{ current_info[0][13] }}
         mb) {% endif %}</td>
     </tr>
     <tr>
       <th style="text-align: right;">Visibility:</th>
-      <td>{{ current_info[0][3] }} mi</td>
+      <td>{{ current_info[0][2] }} mi</td>
     </tr>
-    {% if current_info[0][11] != "NA" %}
+    {% if current_info[0][10] != "NA" or current_info[0][10] is not none %}
     <tr>
       <th style="text-align: right;">Wind Chill:</th>
-      <td>{{ current_info[0][11] }}</td>
+      <td>{{ current_info[0][10] }}</td>
     </tr>
     {% endif %}
-    {% if current_info[0][12] != "NA" %}
+    {% if current_info[0][11] != "NA" or not current_info[0][11] is not none%}
     <tr>
       <th style="text-align: right;">Heat Index:</th>
-      <td>{{ current_info[0][12] }}</td>
+      <td>{{ current_info[0][11] }}</td>
     </tr>
     {% endif %}
     <tr>
       <th style="text-align: right;">Last Updated:</th>
-      <td>{{ current_info[0][0] + " " + current_info[0][1] }}</td>
+      <td>{{ current_info[0][0] }}</td>
     </tr>
   </table>
 
 
-  <button onclick="showCurrent();">Show Three Day History Graph</button>
+  <button onclick="showCurrent();">Show Graph</button>
+  <button><a href="./1">Show Table</a></button>
   <iframe src='http://localhost:8050' height="640" width="960" id="currentObsGraph"
     hidden></iframe>
 
