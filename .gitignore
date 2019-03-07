@@ -12,6 +12,9 @@ logs/
 observations.csv
 observations.db
 observations.db-journal
+observations-new.db
+observations-new.db-journal
 
 .coverage
 .vscode
+

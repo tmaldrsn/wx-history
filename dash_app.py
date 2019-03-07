@@ -5,12 +5,13 @@ import dash_html_components as html
 import plotly.graph_objs as go
 
 import flask
+import numpy as np
 import pandas as pd
 import datetime
 import time
 import os
 
-from src.get_new_observations import main as gno
+import website.observations as gobs
 
 line_obs = ['Air Temperature', 'Dew Point', 'Humidity',
             'Altimeter Pressure', 'Sea Level Pressure']
@@ -18,8 +19,7 @@ scatter_obs = ['Wind Chill', 'Heat Index']
 bar_obs = ['1HR Precip', '3HR Precip', '6HR Precip']
 
 forecast_elements = [
-    "Date",
-    "Time",
+    "Datetime",
     "Wind",
     "Visibility",
     "Weather",
@@ -52,7 +52,6 @@ app.scripts.config.serve_locally = False
 dcc._js_dist[0]['external_url'] = 'https://cdn.plot.ly/plotly-basic-latest.min.js'
 
 app.layout = html.Div([
-    html.H1('Observations'),
     dcc.Dropdown(
         id='observation-dropdown',
         options=[
@@ -77,18 +76,19 @@ app.layout = html.Div([
 def update_graph(selected_dropdown_value, selected_observation):
     data = []
     for station in selected_dropdown_value:
-        dff = pd.DataFrame(gno(station)[0])
+        observations = gobs.get_raw_data(station)[0]
+        observations = gobs.format_rows(observations)
+        dff = pd.DataFrame(observations)
         dff.columns = forecast_elements
         dff.dropna()
-        data.append({
-            'x': [datetime.datetime(int(d[6:10]), int(d[0:2]), int(d[3:5]), int(t[0:2]), int(t[3:5])) for d, t in zip(dff.Date, dff.Time)],
-            'y': list(map(float, dff[selected_observation])),
-            'name': station,
-            'line': {
-                'width': 3,
-                'shape': 'spline'
-            }
-        })
+        data.append(
+            go.Scatter(
+                x=list(dff.Datetime),
+                y=list(dff[selected_observation]),
+                name=station,
+                mode='markers',
+                opacity=0.7
+            ))
 
     return {
         'data': data,

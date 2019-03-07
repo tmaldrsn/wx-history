@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block page_title %}Stations List{% endblock %}
+
+
+{% block body %}
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="/" class="activepage">Home</a>
+  <a href="/stations/">Stations</a>
+  <a href="/search/">Search Data</a>
+</div>
+
+<div id="currentObs">
+  <h1>{{ station_info[0][0] }} - {{station_info[0][2] }}</h1>
+  <h2>Current Observations:</h2>
+  <table>
+    <tr>
+      <th style="text-align: right;">Current Weather:</th>
+      <td>{{ current_info[0][3] }}</td>
+    </tr>
+    <tr>
+      <th style="text-align: right;">Temperature:</th>
+      <td>{{ current_info[0][5] }}&#8457;</td>
+    </tr>
+    <tr>
+      <th style="text-align: right;"> Dew Point:</th>
+      <td>{{ current_info[0][6] }}&#8457;</td>
+    </tr>
+    <tr>
+      <th style="text-align: right;">Humidity:</th>
+      <td>{{ current_info[0][9] }}%</td>
+    </tr>
+    <tr>
+      <th style="text-align: right;">Wind Speed:</th>
+      <td>{{ current_info[0][1] }}</td>
+    </tr>
+    <tr>
+      <th style="text-align: right;">Air Pressure:</th>
+      <td>{{ current_info[0][12] }} in {% if current_info[0][13] != "NA" %} ({{ current_info[0][13] }}
+        mb) {% endif %}</td>
+    </tr>
+    <tr>
+      <th style="text-align: right;">Visibility:</th>
+      <td>{{ current_info[0][2] }} mi</td>
+    </tr>
+    {% if current_info[0][10] != "NA" or current_info[0][10] is not none %}
+    <tr>
+      <th style="text-align: right;">Wind Chill:</th>
+      <td>{{ current_info[0][10] }}</td>
+    </tr>
+    {% endif %}
+    {% if current_info[0][11] != "NA" or not current_info[0][11] is not none%}
+    <tr>
+      <th style="text-align: right;">Heat Index:</th>
+      <td>{{ current_info[0][11] }}</td>
+    </tr>
+    {% endif %}
+    <tr>
+      <th style="text-align: right;">Last Updated:</th>
+      <td>{{ current_info[0][0] }}</td>
+    </tr>
+  </table>
+
+
+  <button onclick="showCurrent();">Show Graph</button>
+  <button><a href="./1">Show Table</a></button>
+  <iframe src='http://localhost:8050' height="640" width="960" id="currentObsGraph"
+    hidden></iframe>
+
+  <script src="../../static/js/dashboard.js"> </script>
+
+</div>
+
+{% endblock %}
