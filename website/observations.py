@@ -8,10 +8,6 @@ import urllib.request
 from urllib.error import URLError
 import logging
 from logging.config import fileConfig
-from database import (
-    is_db_path,
-    connect_to_db,
-)
 from bs4 import BeautifulSoup
 import numpy as np
 import pandas as pd
@@ -39,6 +35,25 @@ forecast_elements = [
     "3HR Precip",
     "6HR Precip"
 ]
+
+
+def is_db_path(db_path):
+    """Returns whether the specified path is a database"""
+    return os.path.splitext(db_path)[-1].lower() == ".db"
+
+
+def connect_to_db(db_path):
+    """Returns a sqlite3 database connection object from a db path"""
+    try:
+        if not is_db_path(db_path):  # pragma: no cover
+            raise Exception("Observations database does not exist!")
+        else:
+            con = sqlite3.connect(db_path)
+            return con
+    except:  # pragma: no cover
+        raise Exception(
+            "Was not able to connect to the observations database."
+        )
 
 
 def get_observations_request(station, timeout=3):
