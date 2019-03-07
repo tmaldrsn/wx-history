@@ -7,6 +7,7 @@ from flask import (
     redirect
 )
 import website
+#from website import server
 import website.observations as gobs
 
 import sqlite3

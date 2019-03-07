@@ -8,16 +8,18 @@ import urllib.request
 from urllib.error import URLError
 import logging
 from logging.config import fileConfig
-from website.database import (
+from database import (
     is_db_path,
     connect_to_db,
 )
 from bs4 import BeautifulSoup
+import numpy as np
+import pandas as pd
 
 fileConfig('logging_config.ini')
 logger = logging.getLogger()
 
-DB_PATH = "observations.db"
+DB_PATH = "observations-new.db"
 forecast_elements = [
     "Datetime",
     "Wind",
@@ -48,7 +50,7 @@ def create_station_table(cur, station):
     try:
         obs_cols = ','.join('"{}"'.format(w) for w in forecast_elements)
         cur.execute(
-            f"""create table if not exists {station} ({obs_cols}, constraint unq unique (date, time))""")
+            f"""create table if not exists {station} ({obs_cols}, constraint unq unique (datetime))""")
     except sqlite3.OperationalError:  # pragma: no cover
         logger.info(f"Table not created for {station}")
 
@@ -98,9 +100,23 @@ def get_initial_date(day):
     elif (date_obj - datetime.timedelta(days=1)).day == int(day):
         date_obj -= datetime.timedelta(days=1)
         return date_obj
+    elif (date_obj - datetime.timedelta(days=2)).day == int(day):
+        date_obj -= datetime.timedelta(days=2)
+        return date_obj
+    elif (date_obj - datetime.timedelta(days=3)).day == int(day):
+        date_obj -= datetime.timedelta(days=3)
+        return date_obj
+    elif (date_obj - datetime.timedelta(days=4)).day == int(day):
+        date_obj -= datetime.timedelta(days=4)
+        return date_obj
     else:
-        raise Exception(
-            "The date does not match the date of today or yesterday.")
+        print(
+            """
+            The date does not match any of the last 4 days, 
+            The given date was {} and today's date is {}.
+            """.format(day, datetime.date.today().strftime('%m/%d/%Y'))
+        )
+        return None
 
 
 def convert(data, type_cast):
@@ -117,6 +133,11 @@ def format_rows(data):
     Converts a given array of raw data to appropriate format for historical use
     """
     init_date = get_initial_date(data[0][0])
+
+    # catch invalid date --> ignore bad data
+    if init_date is None:
+        return []
+
     # Date formatting
     for row in data:
         # Convert day-only date column and time column to a single datetime with a full date
@@ -145,15 +166,52 @@ def format_rows(data):
         row[15] = convert(row[15], float)    # 1HR Precip -> float or null
         row[16] = convert(row[16], float)    # 1HR Precip -> float or null
         # print(row)
-    return data
+    # return data
+    return list(reversed(data))
 
 
-def main():
-    con = connect_to_db(DB_PATH)
+def get_stations_list():
+    station_df = pd.read_csv('stations.csv', sep=',',
+                             quotechar="|", nrows=2190)
+    return station_df.values
+
+
+def get_most_recent_entry(cur, station):
+    """
+    Retrieve the most recent entry datetime for a given station
+    """
+    most_recent = list(cur.execute(
+        f"""select * from {station} order by datetime desc limit 1"""
+    ))
+    if not most_recent:
+        return None
+    return most_recent[0][0]
+
+
+def filter_data_by_date(cur, station, data):
+    date_string_format = "%Y-%m-%d %H:%M:%S"
+    cutoff_date = get_most_recent_entry(cur, station)
+    if cutoff_date is None:
+        cutoff_date = datetime.datetime(datetime.MINYEAR, 1, 1)
+    else:
+        cutoff_date = datetime.datetime.strptime(
+            cutoff_date, date_string_format)
+
+    for index in range(len(data)):
+        # if datetime.datetime.strptime(data[index][0], date_string_format) <= cutoff_date:
+        if data[index][0] <= cutoff_date:
+            data[index] = ''
+        else:
+            continue
+    return list(filter(lambda x: x != '', data))
+
+
+def update_database():
+    con = sqlite3.connect('observations-new.db')
     logger.info("Successfully connected to the observations database.")
 
     cur = con.cursor()
-    stations = list(cur.execute("select * from station"))
+    stations = get_stations_list()
 
     start_time = time.time()
     timed_out, incomplete, not_available = [], [], []
@@ -169,19 +227,33 @@ def main():
         create_station_table(cur, station)
 
         data, status = get_raw_data(station)
-        data_rows = format_rows(data)
 
+        # Checkpoint for catching stations that time out or are not available
+        #   It continues to data formatting for incomplete data
         if status in statuses.keys():
             statuses[status].append(station)
+            if status != "I":
+                continue
 
-        # Insert data into forecast table
-        qmarks = ','.join(['?' for i in range(len(forecast_elements))])
-        cur.executemany(
-            f"""insert or replace into {station} values ({qmarks})""", data_rows
-        )
-        logger.debug(
-            f"{station} table ({i+1-len(timed_out)}/{len(stations)}) updated."
-        )
+        data_rows = format_rows(data)
+        if data_rows == []:
+            statuses["NA"].append(station)
+            continue
+
+        data_rows = filter_data_by_date(cur, station, data)
+        if data_rows == []:
+            logger.debug(
+                f"{station} table ({i+1-len(timed_out)}/{len(stations)}) already up to date."
+            )
+        else:
+            # Insert data into forecast table
+            qmarks = ','.join(['?' for i in range(len(forecast_elements))])
+            cur.executemany(
+                f"""insert or replace into {station} values ({qmarks})""", data_rows
+            )
+            logger.debug(
+                f"{station} table ({i+1-len(timed_out)}/{len(stations)}) updated."
+            )
 
     con.commit()
     logger.info(
@@ -198,22 +270,34 @@ def main():
             create_station_table(cur, station)
 
             data, status = get_raw_data(station)
-            data_rows = format_rows(data)
-
             if status in statuses.keys():
                 statuses[status].append(station)
+                if status != "I":
+                    continue
 
-            # Insert data into forecast table
-            qmarks = ','.join(['?' for i in range(len(forecast_elements))])
-            cur.executemany(
-                f"""insert or replace into {station} values ({qmarks})""", data_rows
-            )
-            logger.debug(
-                f"{station} table ({len(timed_out) - (i+1)}/{len(stations)}) updated."
-            )
+            data_rows = format_rows(data)
+            if data_rows == []:
+                statuses['NA'].append(station)
+                continue
+
+            data_rows = filter_data_by_date(cur, station, data)
+            if data_rows == []:
+                logger.debug(
+                    f"{station} table ({i+1-len(timed_out)}/{len(stations)}) already up to date."
+                )
+            else:
+                # Insert data into forecast table
+                qmarks = ','.join(['?' for i in range(len(forecast_elements))])
+                cur.executemany(
+                    f"""insert or replace into {station} values ({qmarks})""", data_rows
+                )
+                logger.debug(
+                    f"{station} table ({i+1-len(timed_out)}/{len(stations)}) updated."
+                )
 
             timed_out[i] = ''
 
+        # update list of timed out stations
         timed_out = list(filter(lambda x: x != '', timed_out))
         if len(timed_out) != 0:
             logger.info(
@@ -221,17 +305,21 @@ def main():
                 f"{len(timed_out)} stations still need updated."
             )
 
+    # listed here if station times out more than NUM_ROUNDS times (unlikely..)
     if len(timed_out) != 0:  # pragma: no cover
         logger.warning(
             f"{len(timed_out)} stations could not be updated: "
             f"{', '.join(timed_out)}."
         )
+
+    # stations with incomplete data listed here
     if len(incomplete) != 0:
         logger.warning(
             f"{len(incomplete)} stations had incomplete data: "
             f"{', '.join(incomplete)}."
         )
 
+    # stations that were not available (or had bad datetime data) listed here
     if len(not_available) != 0:
         logger.warning(
             f"{len(not_available)} stations were not available: "
@@ -244,3 +332,7 @@ def main():
         f"Observations update complete after {current_round} rounds.\n"
         f"Completed in {time.time()-start_time} seconds."
     )
+
+
+if __name__ == '__main__':
+    update_database()
