@@ -15,7 +15,7 @@ import pandas as pd
 fileConfig('logging_config.ini')
 logger = logging.getLogger()
 
-DB_PATH = "observations-new.db"
+DB_PATH = "observations.db"
 forecast_elements = [
     "Datetime",
     "Wind",
@@ -180,9 +180,7 @@ def format_rows(data):
         row[14] = convert(row[14], float)    # 1HR Precip -> float or null
         row[15] = convert(row[15], float)    # 1HR Precip -> float or null
         row[16] = convert(row[16], float)    # 1HR Precip -> float or null
-        # print(row)
-    # return data
-    return list(reversed(data))
+    return sorted(data, key=lambda x: x[0])
 
 
 def get_stations_list():
@@ -222,7 +220,7 @@ def filter_data_by_date(cur, station, data):
 
 
 def update_database():
-    con = sqlite3.connect('observations-new.db')
+    con = sqlite3.connect(DB_PATH)
     logger.info("Successfully connected to the observations database.")
 
     cur = con.cursor()

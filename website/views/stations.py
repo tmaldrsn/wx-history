@@ -7,7 +7,6 @@ from flask import (
     redirect
 )
 import website
-#from website import server
 import website.observations as gobs
 
 import sqlite3
@@ -50,6 +49,7 @@ forecast_elements = [
     "6HR Precip"
 ]
 
+DB_PATH = "observations.db"
 
 dash_app = dash.Dash('app', url_base_pathname='/current/')
 dash_app.scripts.config.serve_locally = False
@@ -119,7 +119,7 @@ def show_station_list():
     station_df = pd.read_csv('stations.csv', sep=',',
                              quotechar="|", nrows=2190)
     """
-    con = sqlite3.connect("observations-new.db")
+    con = sqlite3.connect(DB_PATH)
     cur = con.cursor()
 
     query = "select * from station"
@@ -135,9 +135,9 @@ def show_station_information(s):
                              quotechar="|", nrows=2190)
     station_info = station_df[station_df['ID'] == s].values
 
-    con = sqlite3.connect('observations-new.db')
+    con = sqlite3.connect(DB_PATH)
     cur = con.cursor()
-    query = f"select * from {s} limit 1"
+    query = f"select * from {s} order by datetime desc limit 1"
     current_info = list(cur.execute(query))
     con.close()
 
@@ -146,7 +146,7 @@ def show_station_information(s):
 
 @mod.route('/<s>/<page>')
 def show_station_data(s, page=1):
-    con = sqlite3.connect("observations-new.db")
+    con = sqlite3.connect(DB_PATH)
     cur = con.cursor()
 
     station_df = pd.read_csv('stations.csv', sep=',',
