@@ -19,7 +19,7 @@ obs_to_col = {
 }
 
 
-def get_dataset(db_path, station="KTOL", obs="dp"):
+def get_dataset(db_path, station="KTOL", obs="temp"):
     con = sqlite3.connect(db_path)
     cur = con.cursor()
 
@@ -34,12 +34,12 @@ def get_dataset(db_path, station="KTOL", obs="dp"):
     return datetimes, data
 
 
-def format_dataset(data_stream, num_terms):
-    X = np.array([data_stream[i:i+num_terms]
-                  for i in range(len(data_stream)-num_terms)])
+def format_dataset(data_stream, num_in_terms, num_out_terms):
+    X = np.array([data_stream[i:i+num_in_terms]
+                  for i in range(len(data_stream)-num_in_terms-1)])
     X = X.reshape((X.shape[0], X.shape[1], 1))
-    y = np.array([data_stream[i+num_terms]
-                  for i in range(len(data_stream)-num_terms)])
+    y = np.array([data_stream[i+num_in_terms:i+num_in_terms+num_out_terms]
+                  for i in range(len(data_stream)-num_in_terms-1)])
     y = y.reshape((y.shape[0], y.shape[1], 1))
     return X, y
 
@@ -67,18 +67,19 @@ def predict(model, X):
     for arr in X:
         arr = arr.reshape((1, arr.shape[0], 1))
         pred.append(model.predict(arr)[0][0])
-    return pred
+    return np.array(pred)
 
 
 if __name__ == '__main__':
     DB_PATH = 'observations.db'
     STATION = 'KTOL'
-    TERMS = 5
+    IN_TERMS = 3
+    OUT_TERMS = 2
     EPOCHS = 500
 
     datetimes, data = get_dataset(DB_PATH)
-    X, y = format_dataset(data, TERMS)
-    model = get_model(TERMS)
+    X, y = format_dataset(data, IN_TERMS, OUT_TERMS)
+    model = get_model(IN_TERMS)
     model = fit_model(model, X, y, EPOCHS)
 
     pred = predict(model, X)
@@ -88,7 +89,11 @@ if __name__ == '__main__':
 #        actual = y[i]
 #        print(f"PREDICTION: {prediction:.2f} --> ACTUAL: {actual}")
 
-    plt.plot(datetimes[TERMS:], y, 'k', label='ACTUAL')
-    plt.plot(datetimes[TERMS:], pred, 'y', label='PREDICTED')
+    print(datetimes[IN_TERMS+1:].shape)
+    print(y.shape)
+    print(pred.shape)
+
+    plt.plot(datetimes[IN_TERMS:-1], y[:, 0], 'k', label='ACTUAL')
+    plt.plot(datetimes[IN_TERMS:-1], pred[:, 0], 'y', label='PREDICTED')
     plt.legend()
     plt.show()
