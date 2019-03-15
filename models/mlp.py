@@ -31,7 +31,7 @@ def get_dataset(db_path, station="KTOL", obs="temp"):
         row[0], "%Y-%m-%d %H:%M:%S") for row in raw_data])
     data = np.array([row[obs_col] for row in raw_data])
 
-    return datetimes, data
+    return np.flip(datetimes), np.flip(data)
 
 
 def format_dataset(data_stream, num_terms):
@@ -63,7 +63,33 @@ def predict(model, X):
     for arr in X:
         arr = arr.reshape((1, arr.shape[0]))
         pred.append(model.predict(arr)[0][0])
-    return pred
+    return np.array(pred)
+
+
+def get_future_data(data, epochs, num_terms, num_future_terms):
+    X, y = format_dataset(data, num_terms)
+    model = get_model(input_dim=num_terms)
+    model = fit_model(model, X, y, epochs=epochs)
+    arr = X[-1]
+    print(arr, arr.shape)
+    future_terms = []
+    for _ in range(num_future_terms):
+        arr = arr.reshape((1, arr.shape[0]))
+        next_term = model.predict(arr).item(0)
+        arr = np.append(arr.flatten()[1:], next_term)
+        future_terms.append(next_term)
+    return future_terms
+
+
+def plot_predictions(data):
+    plt.plot(range(len(data)), data, 'k', label='Historical')
+    for len_history, color in zip([12, 24, 36, 48], ['r', 'b', 'g', 'y']):
+        future_terms = get_future_data(
+            data, epochs=2000, num_terms=len_history, num_future_terms=100)
+        plt.plot(range(len(data), len(data)+len(future_terms)),
+                 future_terms, color, label=f"{len_history} hours")
+    plt.legend()
+    plt.show()
 
 
 if __name__ == '__main__':
