@@ -70,9 +70,9 @@ def get_future_data(data, epochs, num_terms, num_future_terms):
     X, y = format_dataset(data, num_terms)
     model = get_model(input_dim=num_terms)
     model = fit_model(model, X, y, epochs=epochs)
-    arr = X[-1]
-    print(arr, arr.shape)
+
     future_terms = []
+    arr = X[-1]
     for _ in range(num_future_terms):
         arr = arr.reshape((1, arr.shape[0]))
         next_term = model.predict(arr).item(0)
@@ -83,34 +83,21 @@ def get_future_data(data, epochs, num_terms, num_future_terms):
 
 def plot_predictions(data):
     plt.plot(range(len(data)), data, 'k', label='Historical')
-    for len_history, color in zip([12, 24, 36, 48], ['r', 'b', 'g', 'y']):
+    for len_history, color in zip([24, 48, 72, 96], ['r', 'b', 'g', 'y']):
         future_terms = get_future_data(
-            data, epochs=2000, num_terms=len_history, num_future_terms=100)
+            data, epochs=2000, num_terms=len_history, num_future_terms=len_history)
         plt.plot(range(len(data), len(data)+len(future_terms)),
                  future_terms, color, label=f"{len_history} hours")
+    plt.axvline(x=len(data))
     plt.legend()
     plt.show()
 
 
 if __name__ == '__main__':
     DB_PATH = 'observations.db'
-    STATION = 'KTOL'
+    STATION = ''
     TERMS = 5
     EPOCHS = 5000
 
     datetimes, data = get_dataset(DB_PATH)
-    X, y = format_dataset(data, TERMS)
-    model = get_model(TERMS)
-    model = fit_model(model, X, y, EPOCHS)
-
-    pred = predict(model, X)
-
-#    for i in range(len(pred)):
-#        prediction = model.predict(X[i].reshape((1, X[i].shape[0])))[0][0]
-#        actual = y[i]
-#        print(f"PREDICTION: {prediction:.2f} --> ACTUAL: {actual}")
-
-    plt.plot(datetimes[TERMS:], y, 'k', label='ACTUAL')
-    plt.plot(datetimes[TERMS:], pred, 'y', label='PREDICTED')
-    plt.legend()
-    plt.show()
+    plot_predictions(data)
