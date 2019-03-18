@@ -32,7 +32,6 @@ KHUA,AL,Redstone Airfield,34.6786,-86.6847
 KJKA,AL,Jack Edwards Airport,30.2896,-87.6718
 KPRN,AL,Mac Crenshaw Memorial Airport,31.8457,-86.6107
 KCQF,AL,Sonny Callahan Airport,30.461,-87.877
-KEUF,AL,Eufaula Municipal Airport,31.951,-85.129
 K4A6,AL,Scottsboro Municipal Airport,34.6887,-86.0059
 KJFX,AL,Jasper Walker County Airport & Bevill Field,33.902,-87.3142
 KDYA,AL,Demopolis Municipal Airport,32.4638,-87.9541
@@ -528,8 +527,6 @@ KMCW,IA,Mason City Municipal Airport,43.1544,-93.3261
 KMIW,IA,|Marshalltown, Marshalltown Municipal Airport|,42.1106,-92.9161
 KMPZ,IA,|Mount Pleasant, Mount Pleasant Municipal Airport|,40.9467,-91.5111
 KMUT,IA,Muscatine,41.3667,-91.15
-KMXO,IA,Monticello Regional Airport,42.2204,-91.1604
-KORC,IA,Orange City Municipal Airport,42.9895,-96.0606
 KOTM,IA,Ottumwa Regional Airport,41.1008,-92.4445
 KOXV,IA,Knoxville,41.3,-93.1167
 KPEA,IA,|Pella, Pella Municipal Airport|,41.4,-92.9333
@@ -561,7 +558,6 @@ KLLJ,ID,Challis - Challis Airport,44.523,-114.216
 KLWS,ID,|Lewiston, Lewiston-Nez Perce County Airport|,46.3747,-117.014
 KMUO,ID,Mountain Home Air Force Base,43.05,-115.867
 KMYL,ID,McCall Airport,44.8942,-116.1
-KP69,ID,Lowell,46.1442,-115.596
 KPIH,ID,|Pocatello, Pocatello Regional Airport|,42.9203,-112.571
 KRXE,ID,|Rexburg, Rexburg-Madison County Airport|,43.8317,-111.806
 KGIC,ID,Grangeville - Idaho County Airport,45.9411,-116.133
@@ -792,17 +788,10 @@ KAQV,LA,Ft. Polk - Peason Ridge,31.4,-93.2833
 KBKB,LA,Ft. Polk - Fullerton Landing Strip,31.0217,-92.9107
 KUXL,LA,Southland Field,30.1314,-93.3761
 KGBK,LA,MAGNOLIA OIL PLATFORM,27.2,-92.2
-KMDJ,LA,MISS CANYON OIL PLATFORM,28.65,-89.8
-KVBS,LA,SABINE 13B OIL PLATFORM,29.48,-93.63
-KSCF,LA,S MARSH268 OIL PLATFORM,29.12,-91.87
 KMNE,LA,Minden Airport,32.646,-93.2981
 KGHB,LA,GB172/Salsa (Shell E-P),27.84,-91.988
 KVQT,LA,Vermilion 331 (Energy Resource Technology),28.27,-92.264
 KEIR,LA,Eugene Island,28.634,-91.489
-KXPY,LA,Port Fourchon,29.123,-90.202
-KXIH,LA,High Island 179A (Apache Corp),29.18,-94.521
-KMIS,LA,Main Pass 140B (Apache Corp),29.296,-88.842
-KVKY,LA,Main Pass 289C (Apache Corp),29.248,-88.441
 KVOA,LA,VK 786/Petronius (Chevron),29.229,-87.781
 KGRY,LA,Green Canyon 338 Front Runner,27.625,-90.441
 KIYA,LA,Abbeville Chris Crusta Memorial Airport,29.9758,-92.0842
@@ -876,7 +865,6 @@ KPWM,ME,|Portland, Portland International Jetport|,43.6422,-70.3044
 KRKD,ME,|Rockland, Knox County Regional Airport|,44.0667,-69.1
 KSFM,ME,|Sanford, Sanford Regional Airport|,43.4,-70.7167
 KWVL,ME,|Waterville, Waterville Robert LaFleur Airport|,44.5333,-69.6833
-K8B0,ME,Steven A Bean Municipal Airport,44.99,-70.6623
 KACB,MI,|Bellaire, Antrim County Airport|,44.9883,-85.1983
 KADG,MI,|Adrian, Lenawee County Airport|,41.8678,-84.0794
 KAMN,MI,|Alma, Gratiot Community Airport|,43.3219,-84.6878
@@ -995,7 +983,6 @@ KBDH,MN,Willmar Municipal Airport - John L. Rice Field,45.1111,-95.1258
 KINL,MN,Falls International Airport,48.5594,-93.3956
 KJKJ,MN,Moorhead Municipal Airport,46.8404,-96.6544
 KJMR,MN,Mora Municipal Airport,45.8886,-93.269
-KJYG,MN,St. James Municipal Airport,43.9856,-94.553
 KLJF,MN,Litchfield Municipal Airport,45.0949,-94.5084
 KLVN,MN,|Minneapolis, Airlake Airport|,44.6278,-93.2281
 KLXL,MN,|Little Falls, Little Falls/Morrison County Airport-Lindbergh Field|,45.95,-94.35
@@ -1074,7 +1061,6 @@ KTBN,MO,Fort Leonard Wood,37.7333,-92.1333
 KUNO,MO,|West Plains, West Plains Municipal Airport|,36.8792,-91.905
 KVIH,MO,|Rolla / Vichy, Rolla National Airport|,38.1319,-91.7653
 KMHL,MO,Marshall Memorial Municipal Airport,39.0955,-93.2028
-KMBY,MO,MOBERLY,39.4638,-92.427
 KMYJ,MO,Mexico Memorial Airport,39.1575,-91.8183
 KHAE,MO,Hannibal Regional Airport,39.7252,-91.4439
 KSIK,MO,Sikeston Memorial Municipal Airport,36.8989,-89.5618
@@ -1184,7 +1170,6 @@ KIPJ,NC,|Lincolnton, Lincolnton-Lincoln County Regional Airport|,35.4831,-81.161
 KISO,NC,|Kinston, Kinston Regional Jetport at Stallings Field|,35.3333,-77.6167
 KJNX,NC,|Smithfield, Johnston County Airport|,35.5408,-78.3903
 KJQF,NC,Concord Regional Airport,35.3896,-80.7074
-KLBT,NC,Lumberton Municipal Airport,34.6082,-79.059
 KMEB,NC,Laurinburg Maxton Airport,34.7913,-79.3683
 KMQI,NC,Manteo / Dare County Regional,35.9167,-75.7
 KMRH,NC,Beaufort Smith Field,34.7326,-76.6566
@@ -1251,13 +1236,10 @@ K20U,ND,BEACH,46.93,-103.98
 KD55,ND,Langdon,48.7531,-98.3937
 K9D7,ND,CANDO,48.48,-99.23
 K96D,ND,Walhalla Municipal Airport,48.9402,-97.9053
-KBAC,ND,Valley City,46.9412,-98.018
 KGWR,ND,Gwinner,46.2187,-97.6435
 K2D5,ND,Oakes Municipal Airport,46.1731,-98.0799
 K5H4,ND,Harvey Municipal Airport,47.7912,-99.9317
 KS32,ND,Cooperstown,47.4228,-98.1059
-K08D,ND,Stanley Municipal Airport,48.3008,-102.406
-KD57,ND,Glen Ullin Regional Airport,46.8128,-101.86
 KOMA,NE,Omaha - Eppley Airfield,41.3119,-95.9018
 KLNK,NE,|Lincoln, Lincoln Municipal Airport|,40.8311,-96.7644
 KBIE,NE,Beatrice Municipal,40.3,-96.75
@@ -1497,7 +1479,6 @@ KGCM,OK,|Claremore, Claremore Regional Airport|,36.2944,-95.4797
 KGMJ,OK,|Grove, Grove Municipal Airport|,36.6053,-94.7386
 KGOK,OK,|Guthrie, Guthrie Municipal Airport|,35.8519,-97.4075
 KHBR,OK,|Hobart, Hobart Municipal Airport|,34.9894,-99.0525
-KJSV,OK,|Sallisaw, Sallisaw Municipal Airport|,35.4381,-94.8028
 KJWG,OK,|Watonga, Watonga Airport|,35.8647,-98.4208
 KLAW,OK,|Lawton, Lawton Municipal Airport|,34.5575,-98.4167
 KLTS,OK,Altus Air Force Base,34.65,-99.2667
@@ -1517,7 +1498,6 @@ KWDG,OK,|Enid, Enid Woodring Regional Airport|,36.3792,-97.7911
 KWWR,OK,|Woodward, West Woodward Airport|,36.4367,-99.5211
 KSNL,OK,|Shawnee, Shawnee Municipal Airport|,35.3572,-96.9428
 KAXS,OK,|Altus, Altus/Quartz Mountain Regional Airport|,34.6986,-99.3381
-KCLK,OK,|Clinton, Clinton Regional Airport|,35.5381,-98.9214
 KCUH,OK,|Cushing, Cushing Municipal Airport|,35.9497,-96.7728
 KSRE,OK,|Seminole, Seminole Municipal Airport|,35.2744,-96.675
 KOJA,OK,|Weatherford, Thomas P Stafford Airport|,35.5447,-98.6683
@@ -1526,7 +1506,6 @@ KRQO,OK,|El Reno, El Reno Regional Airport|,35.4725,-98.0056
 KBKN,OK,Blackwell-Tonkawa Municipal Airport,36.7451,-97.3496
 KRCE,OK,Clarence E Page Municipal Airport,35.4881,-97.8236
 KGZL,OK,Stigler,35.2891,-95.0939
-KHHW,OK,Hugo Stan Stamper Municipal Airport,34.0348,-95.5419
 KOWP,OK,|Sand Springs, William R Pogue Municipal Airport|,36.1753,-96.1518
 KELK,OK,Elk City Regional Business Airport,35.4308,-99.3943
 KGCD,OR,Grant County Regional Airport,44.4029,-118.967
@@ -1562,7 +1541,6 @@ KBDN,OR,Bend Airport AWOS,44.0948,-121.201
 K4S2,OR,Ken Jernstedt Airfield,45.6746,-121.535
 K3S8,OR,Grants Pass Airport,42.5101,-123.388
 K6S2,OR,Florence Municipal Airport,43.9828,-124.111
-KS33,OR,Madras Municipal Airport,44.6653,-121.156
 KS39,OR,Prineville Airport,44.287,-120.904
 KMQS,PA,Chester County Airport,39.9833,-75.8667
 KABE,PA,|Allentown, Lehigh Valley International Airport|,40.6499,-75.4477
@@ -1715,7 +1693,6 @@ KM91,TN,Springfield Robertson County Airport,36.5363,-86.9189
 KJAU,TN,Jacksboro Campbell County Airport,36.3341,-84.163
 KJWN,TN,John C Tune Airport,36.1852,-86.8833
 KGZS,TN,Pulaski Abernathy Field Airport,35.1537,-87.0568
-K1M5,TN,Portland Municipal Airport,36.5929,-86.4769
 KXNX,TN,Sumner County Regional Airport,36.3751,-86.4084
 KFYE,TN,Somerville - Fayette County Airport,35.2061,-89.3929
 K2A0,TN,Dayton,35.4817,-84.9322
@@ -1730,7 +1707,6 @@ KM02,TN,Dickson Municipal Airport,36.1279,-87.4298
 K2M2,TN,Lawrenceburg-Lawrence County Airport,35.2343,-87.2579
 KDRT,TX,|Del Rio, Del Rio International Airport|,29.3747,-100.924
 KDLF,TX,Laughlin Air Force Base Auxiliary Airfield,29.3665,-100.785
-KGDP,TX,|Pine Springs, Guadalupe Mountains National Park|,31.8311,-104.809
 KSJT,TX,|San Angelo, Mathis Field|,31.3514,-100.494
 KDHT,TX,|Dalhart, Dalhart Municipal Airport|,36.0233,-102.547
 KMAF,TX,|Midland, Midland International Airport|,31.9478,-102.209
@@ -1884,10 +1860,7 @@ K6R3,TX,Cleveland,30.3567,-95.0083
 KDZB,TX,Horseshoe Bay Resort Airpark,30.5271,-98.3588
 KRYW,TX,|Lago Vista TX, Rusty Allen Airport|,30.4967,-97.9659
 KEDC,TX,Austin Executive Airport,30.3925,-97.5621
-KBBF,TX,BRAZOS 133 OIL PLATFORM,27.83,-96.02
-KHQI,TX,H ISLAND376 OIL PLATFORM,27.97,-93.67
 KBQX,TX,BRAZOS 451 OIL PLATFORM,28.5,-95.72
-KEMK,TX,E BREAKS OIL PLATFORM,27.82,-94.32
 KGUL,TX,GUNNISON OIL PLATFORM,27.3,-93.53
 KOZA,TX,Ozona Municipal Airport,30.7353,-101.203
 KASL,TX,Marshall,32.5205,-94.3078
@@ -1940,7 +1913,6 @@ KSGU,UT,St George Municipal Airport,37.0451,-113.506
 KHCR,UT,Heber City Municipal-Russ McDonald Field Airport,40.4774,-111.433
 K74V,UT,ROOSEVELT,40.28,-110.05
 KTVY,UT,Bolinder Field-Tooele Valley Airport,40.6127,-112.354
-KU16,UT,Eagle Range,41.0606,-113.071
 KDTA,UT,|Delta, Delta Municipal Airport|,39.3833,-112.51
 KHVE,UT,Hanksville,38.418,-110.704
 KAKQ,VA,Wakefield Municipal Airport,36.9827,-77.0014
@@ -2126,7 +2098,6 @@ KUBE,WI,Cumberland,45.506,-91.9811
 KBCK,WI,Black River Falls Area Airport,44.25,-90.85
 KPVB,WI,Platteville Municipal Airport,42.6909,-90.4412
 KEZS,WI,Shawano Municipal Airport,44.787,-88.56
-KD25,WI,Manitowish Waters Airport,46.1204,-89.8802
 KOCQ,WI,Oconto J. Douglas Bake Memorial Airport,44.8742,-87.9096
 KY23,WI,Chetek Municipal Southworth Airport,45.3106,-91.6381
 KC35,WI,Reedsburg Municipal Airport,43.5259,-89.9832
@@ -2182,7 +2153,6 @@ KSAA,WY,Saratoga WY,41.4448,-106.823
 KECS,WY,Mondell Field,43.8854,-104.318
 KW43,WY,Hulett Municipal Airport,44.6629,-104.568
 KFWZ,WY,South Pass,42.5167,-108.783
-KTBX,WY,Boysen,43.4667,-108.233
 KEHY,WY,Elk Mountain AWOS,41.7253,-106.459
 K82V,WY,Pine Bluffs Municipal Airport,41.1533,-104.13
 KDWX,WY,Dixon Airport,41.037,-107.5
