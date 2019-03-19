@@ -83,7 +83,16 @@ class NeuralNetwork():
         arr = X[-1]
         for _ in range(num_future_terms):
             #arr = arr.reshape((1, arr.shape[0]))
-            arr = arr.reshape((1, arr.shape[0], 1))
+            if self.id == "mlp":
+                arr = arr.reshape((1, arr.shape[0]))
+            elif self.id == "cnn":
+                arr = arr.reshape((1, arr.shape[0], 1))
+            elif self.id == "lstm":
+                arr = arr.reshape((1, arr.shape[0], 1))
+            elif self.id == "hybrid":
+                arr = arr.reshape((1, 2, 2, 1))
+            elif self.id == "autoencoder":
+                arr = arr.reshape((1, arr.shape[0], 1))
             next_term = self.predict(arr).item(0)
             arr = np.append(arr.flatten()[1:], next_term)
             future_terms.append(next_term)
@@ -140,7 +149,7 @@ class LongShortTermMemory(NeuralNetwork):
     def get_model(self):
         self.model = Sequential()
         self.model.add(LSTM(50, activation=self.activation,
-                            input_dim=(self.input_dim, 1)))
+                            input_shape=(self.input_dim, 1)))
         self.model.add(Dense(1))
         self.model.compile(optimizer=self.optimizer, loss=self.loss)
 
