@@ -15,7 +15,7 @@ import pandas as pd
 fileConfig('logging_config.ini')
 logger = logging.getLogger()
 
-DB_PATH = "observations.db"
+DB_PATH = "data/observations.db"
 forecast_elements = [
     "Datetime",
     "Wind",
@@ -184,8 +184,7 @@ def format_rows(data):
 
 
 def get_stations_list():
-    station_df = pd.read_csv('stations.csv', sep=',',
-                             quotechar="|", nrows=2190)
+    station_df = pd.read_csv('data/stations.csv', sep=',', quotechar='|')
     return station_df.values
 
 

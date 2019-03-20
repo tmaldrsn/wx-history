@@ -24,7 +24,7 @@ def handle_data():
         year=int(date[:4]), month=int(date[5:7]), day=int(date[8:10]))
     formatted_date = datetime.date.strftime(datetime_object, "%m/%d/%Y")
 
-    con = sqlite3.connect("observations.db")
+    con = sqlite3.connect("data/observations.db")
     cur = con.cursor()
 
     station_query = f"select * from station where id='{result['station']}'"

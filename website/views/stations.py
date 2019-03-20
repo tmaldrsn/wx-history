@@ -49,13 +49,13 @@ forecast_elements = [
     "6HR Precip"
 ]
 
-DB_PATH = "observations.db"
+DB_PATH = "data/observations.db"
 
 dash_app = dash.Dash('app', url_base_pathname='/current/')
 dash_app.scripts.config.serve_locally = False
 dcc._js_dist[0]['external_url'] = 'https://cdn.plot.ly/plotly-basic-latest.min.js'
 
-station_df = pd.read_csv('stations.csv', sep=',', quotechar='|')
+station_df = pd.read_csv('data/stations.csv', sep=',', quotechar='|')
 
 dash_app.layout = html.Div([
     html.H1('Observations'),
@@ -115,7 +115,7 @@ mod = Blueprint('stations', __name__, url_prefix='/stations/')
 
 @mod.route('/')
 def show_station_list():
-    station_df = pd.read_csv('stations.csv', sep=',', quotechar="|")
+    station_df = pd.read_csv('data/stations.csv', sep=',', quotechar="|")
     vals = station_df.values
 
     for val in vals:
@@ -134,7 +134,7 @@ def show_station_list():
 
 @mod.route('/<s>/')
 def show_station_information(s):
-    station_df = pd.read_csv('stations.csv', sep=',', quotechar="|")
+    station_df = pd.read_csv('data/stations.csv', sep=',', quotechar="|")
     station_info = station_df[station_df['ID'] == s].values
 
     con = sqlite3.connect(DB_PATH)
@@ -151,7 +151,7 @@ def show_station_data(s, page=1):
     con = sqlite3.connect(DB_PATH)
     cur = con.cursor()
 
-    station_df = pd.read_csv('stations.csv', sep=',', quotechar="|")
+    station_df = pd.read_csv('data/stations.csv', sep=',', quotechar="|")
     station_info = station_df[station_df['ID'] == s].values
     query = f"select * from {s} order by datetime desc limit 50 offset {50*(int(page)-1)}"
     observations = list(cur.execute(query))

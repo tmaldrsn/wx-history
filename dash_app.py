@@ -42,9 +42,7 @@ forecast_elements = [
 server = flask.Flask('app')
 server.secret_key = os.environ.get('secret_key', 'secret')
 
-station_df = pd.read_csv('observations.csv', sep=',',
-                         quotechar="|", nrows=2190)
-# obs_df = pd.read_csv('observations.csv', sep=',', header=2191, quotechar="|")
+station_df = pd.read_csv('data/stations.csv', sep=',', quotechar="|")
 
 app = dash.Dash('app', server=server)
 

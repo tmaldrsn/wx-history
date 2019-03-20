@@ -71,7 +71,7 @@ def predict(model, X):
 
 
 if __name__ == '__main__':
-    DB_PATH = 'observations.db'
+    DB_PATH = 'data/observations.db'
     STATION = 'KTOL'
     IN_TERMS = 3
     OUT_TERMS = 2

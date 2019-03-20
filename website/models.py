@@ -19,7 +19,7 @@ obs_to_col = {
     "precip": 14
 }
 
-DB_PATH = 'observations.db'
+DB_PATH = 'data/observations.db'
 STATION = 'KTOL'
 OBS = 'temp'
 

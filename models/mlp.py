@@ -94,7 +94,7 @@ def plot_predictions(data):
 
 
 if __name__ == '__main__':
-    DB_PATH = 'observations.db'
+    DB_PATH = 'data/observations.db'
     STATION = ''
     TERMS = 5
     EPOCHS = 5000

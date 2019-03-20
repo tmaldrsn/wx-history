@@ -60,7 +60,7 @@ dash_app.scripts.config.serve_locally = False
 dcc._js_dist[0]['external_url'] = 'https://cdn.plot.ly/plotly-basic-latest.min.js'
 
 
-station_df = pd.read_csv('stations.csv', sep=',', quotechar='|')
+station_df = pd.read_csv('data/stations.csv', sep=',', quotechar='|')
 
 dash_app.layout = html.Div([
     html.H1('Observations'),
