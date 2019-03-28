@@ -17,3 +17,7 @@ function toggleFilterOptions() {
   if (filterElement.style.display == "") filterElement.style.display = "block";
   else if (filterElement.style.display == "block") filterElement.style.display = "";
 }
+
+function redirectToStationPage() {
+  
+}

@@ -13,7 +13,11 @@
 </div>
 
 <div id="main">
-  <a onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <div>
+    <a onclick="openNav()"><i class="fa fa-bars"></i></a>
+    <input id="zipsearch" type="text">
+    <input id="search" type="submit" onclick="redirectToStationPage();">
+  </div>
 
   <h1>Nationwide Hourly Weather Log</h1>
   <p>
@@ -27,9 +31,16 @@
     -->
     <div id="stationMap"></div>
     <script>
+      let ids = '{{ids}}';
+      let idsArray = [];
+      for (let i=0; i<2158; i++) {
+        idsArray.push(ids.slice(16*i+6, 16*i+10));
+      }
+
       let data = [{
         type: 'scattergeo',
         mode: 'markers',
+        text: idsArray,
         lon: {{ lons }},
         lat: {{ lats }},
         marker: {
