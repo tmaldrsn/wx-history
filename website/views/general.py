@@ -15,7 +15,12 @@ mod = Blueprint('general', __name__)
 
 @mod.route('/')
 def home_page():
-    return render_template('general/index.html')
+    station_df = pd.read_csv('data/stations.csv', sep=',', quotechar='|')
+    ids = list(station_df["ID"].values)
+    lats = list(station_df["Latitude"].values)
+    lons = list(station_df["Longitude"].values)
+    print(ids)
+    return render_template('general/index.html', ids=ids, lats=lats, lons=lons)
 
 
 @mod.route('/_get_extremes')
