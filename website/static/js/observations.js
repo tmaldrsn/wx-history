@@ -1,14 +1,24 @@
 $(function () {
-  $('#toggleTable').bind('click', function () {
-    console.log('button clicked')
-    $.getJSON('/stations/KTOL/_get_observations', {}, function (data) {
-      if ($('#obsList').text() != '') {
-        $('#obsList').text('');
+  $('#toggleGraph').bind('click', function () {
+    $.getJSON('./_get_observations', {}, function (data) {
+      if ($('#currentObsGraph')[0].style.display == "block") {
+        $('#currentObsGraph')[0].style.display = "none";
+        $('#toggleGraph').text("Show Graph");
       } else {
-        //let datetimes = JSON.parse(data.datetimes);
-        //let temps = JSON.parse(data.temps);
-        $('#obsList').text(data.temps);
+        $('#currentObsGraph')[0].style.display = "block";
+        $('#toggleGraph').text("Hide Graph");
       }
+
+      let datetimes = data.datetimes;
+      let temps = data.temps;
+
+      let trace = {
+        x: datetimes,
+        y: temps,
+        type: 'line'
+      };
+
+      Plotly.newPlot('currentObsGraph', [trace]);
     });
     return false;
   });
