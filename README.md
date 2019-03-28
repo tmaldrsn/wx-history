@@ -1,11 +1,12 @@
-# Collecting data from NOAA based on a given station's code (e.g. KTOL for Toledo, Ohio)
+# Collecting data from NOAA based on a given station's ID
 
 Basic web backend exercise covering the following topics:
 
 * databases (sqlite3)
 * web scraping (beautifulsoup)
 * basic webdev (flask, jinja2)
-* restful api & http requests w/ flask
+* restful api & http requests w/ flask & jquery
+* machine learning (keras)
 
 To run the project, execute ```python3 run.py```
 
@@ -15,11 +16,14 @@ NOAA provides 3-day histories of observations for over 2000 weather stations, an
 
 ## COMMAND LINE TOOLS
 
-There are mutliple tools to visualize data in the command line:
-
-1. ```python3 src/show_stations.py``` shows all of the available station data.
-2. ```python3 src/show_observations.py [station]``` shows all of the available observation data for the station. If no station is specified, the default station specified in the script is used.
-3. (WORK IN PROGRESS) ```python3 src/view_observations.py [station]``` will show a plot of the temperature (and more) for the specified station over all observations.
+Currently the one of the only main tools used in the command line is ```python3 website/observations.py``` which simply updates the database. See "DATA MAINTENANCE" below.
+There are predictive models written using the Keras library also available in the repository in ```website/models.py``` or individually in the ```models/``` directory including:
+    1. Multilayer Perceptron
+    2. Convolutional Neural Network
+    3. Long Short-Term Memory (LSTM) Networks
+    4. Hybrid CNN/LSTM Network
+    5. Autoencoder
+There are plotting capabilities, however they only currently work for the first three options. More documentation will be available in the future for these features as they are developed.
 
 ## DATA FORMAT
 
@@ -59,40 +63,28 @@ Also in the master database, there is a table for each of the stations in the st
 | 12/30/2018 | 20:56 | Vrbl 7 | 7.00  | Overcast            | OVC004               | 71  | 67   |     |     | 87% | NA | NA | 30.09 | 1018.6 |      |      |      |
 | ...        | ...   | ...    | ...   | ...                 | ...                  | ... | ...  | ... | ... | ... | ...| ...| ...   | ...    | ...  | ...  | ...  |
 
-When exporting to a csv file using the db_to_csv.py script, each individual observation is prepended with the station so that the data can be put into the correct table in the observations database.
 
 ### DATA MAINTANENCE
 
-I will get around to hosting a base csv file (or db file if I can) containing all of the data I have collected since the genesis of the project (since about Christmas 2018 for most stations). A csv file will likely be the best way to start since it is about half of the size of the db file, and I am wokring on a csv_to_db script that will create the observations.db file from the imported csv file.
+In order to maintain the most up-to-date database locally, every 1-2 days (no more than 3 days since the data is pulled from 3 day observational histories), execute
 
-In order to maintain the most up-to-date database locally, every 2 days (no more than 3 days since the data is pulled from 3 day observational histories), execute
+```python3 website/observations.py```
 
-```python3 src/get_observations.py```
-
-~~Depending on the internet connection, the script may need to be run more than one time (there are 2190 stations meaning 2190 web requests need to be made so it may timeout with poor connections).
-In my experience, each table takes about 0.7-0.8 seconds to complete, however, roadblocks occur relatively often where a minute or two goes by before the next station is updated. In total, it
-usually takes no more than 45 minutes to an hour to complete assuming the connection does not time out. Eventually, the script will be refactored to either become more proficient in scraping
-or at least able to restart itself in case of timeout.~~
-
-UPDATE: The new script iteratively re-requests the html files that timeout after a specified number of seconds (default is 3 seconds) until there are no more requests that need to be made. This allows for a complete update of the database to occur without needing to manually restart the get_observations.py script and praying the same timeout does not occur. It also ensures that disconnections are avoided, since the script will not automatically timeout when it hits a wall in the urllib request connection. Still a work in progress but a good step nonetheless. The timeout parameter may also be adjusted, 5 seconds just seemed like a reasonable medium since most requests take a second or two; the list storing the timed out stations needs to be relatively short so many rounds of reconnection can be avoided.
-
+This script takes on average around 25-35 minutes to complete fully, and the website cannot be accessed while an update is occurring.
 Hopefully in the future, concurrency will assist in speeding the process of updating the database.
 
 ## TESTING
 
 Execute ```pytest``` in the command line to run the test suite.
 
+
 ## TODO
 
-* Improve database querying both for observations and stations data
-* Design API structure and build off that
-* HTML layout & observation table template
-* Implement basic data visualization with server-side plot generation (?)
-* Find and store most recent db update time information
-* Style observation tables (TABLE WIDTHS!!)
-
-## LONG TERM GOALS
-
-* Fix date plotting issue (over 2018-19 gap)
-* Add hourly forecast viewing (which are also available online per station)
-* Machine learning?!?!?
+* Update test suite
+* Search bar for zip code using search.py
+* Styling throughout website
+* Clean up machine learning models code
+* Interactive station map on main page
+* Search page upgrade
+* Remove 'dirty' data from observations.db and stations.csv
+* Allow get_obserations script to automatically remove 'bad' stations from csv and db

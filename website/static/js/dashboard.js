@@ -1,5 +1,4 @@
 function showCurrent() {
-  console.log('button clicked')
   let currentFrame = document.getElementById("currentObsGraph");
   if (currentFrame.style.display == "none") {
     currentFrame.style.display = "block";

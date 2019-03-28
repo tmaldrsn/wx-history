@@ -32,9 +32,9 @@ def extremes():
     for station in station_list:
         query = f"""select * from {station} where substr(datetime, 0, 11)='{str(dt)}' order by "%s" %s limit 1"""
         try:
-            min_query = query % ("Air Temperature", "desc")
+            min_query = query % ("Air Temperature", "asc")
             min_station_temp = list(cur.execute(min_query))[0][5]
-            max_query = query % ("Air Temperature", "asc")
+            max_query = query % ("Air Temperature", "desc")
             max_station_temp = list(cur.execute(max_query))[0][5]
 
             if min_station_temp < min_temp:
@@ -46,15 +46,3 @@ def extremes():
         except (IndexError, TypeError):
             pass
     return jsonify(date=str(dt), low=min_temp, low_station=min_station, high=max_temp, high_station=max_station)
-
-
-@mod.route('/_add_numbers')
-def add_numbers():
-    a = request.args.get('a', 0, type=int)
-    b = request.args.get('b', 0, type=int)
-    return jsonify(result=a+b)
-
-
-@mod.route('/add')
-def index():
-    return render_template('index.html')
