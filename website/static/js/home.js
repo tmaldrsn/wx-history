@@ -1,3 +1,12 @@
+$(function () {
+  $.getJSON('./_get_extremes', {},
+    function (data) {
+      $("#natHigh")[0].innerHTML = `${data.high} <a href="/stations/${data.high_station}">(${data.high_station})</a>`;
+      $("#natLow")[0].innerHTML = `${data.low} <a href="/stations/${data.low_station}">(${data.low_station})</a>`;
+    }
+  );
+});
+
 /* Set the width of the side navigation to 250px */
 function openNav() {
   document.getElementById("mySidenav").style.width = "250px";
@@ -18,6 +27,22 @@ function toggleFilterOptions() {
   else if (filterElement.style.display == "block") filterElement.style.display = "";
 }
 
-function redirectToStationPage() {
-  
+function redirectToStationPage(zipcode) {
+  if (!isZipCode(zipcode)) {
+    return;
+  }
+
+  $.getJSON('./_search_zipcode?zip=' + zipcode, {}, function (data) {
+    console.log(data);
+    window.location.href = './stations/' + data[0];
+  });
+}
+
+function isZipCode(station) {
+  let zipCodeRegex = /^[0-9]{5}$/;
+  if (station.search(zipCodeRegex) == 0) {
+    return true;
+  } else {
+    return false;
+  }
 }
