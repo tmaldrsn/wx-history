@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block head %}
 {{ super() }}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 {% endblock %}
 {% block page_title %}Stations List{% endblock %}
 
@@ -12,6 +13,7 @@
   <a href="/stations/">Stations</a>
   <a href="/search/">Search Data</a>
 </div>
+
 
 <div id="currentObs">
   <h1>{{ station_info[0][0] }} - {{station_info[0][2] }}</h1>
@@ -65,13 +67,14 @@
   </table>
 
 
-  <button onclick="showCurrent();">Show Graph</button>
+  <button id="toggleTable">Show Graph</button>
   <button><a href="./1">Show Table</a></button>
-  <iframe src='http://localhost:8050' height="640" width="960" id="currentObsGraph"
-    hidden></iframe>
 
-  <script src="../../static/js/dashboard.js"> </script>
+  <div id="currentObsGraph" style="width:600px;height:250px;padding-top:50px;"></div>
+  <div id="obsList"></div>
 
+  <script src="../../static/js/observations.js"></script>
+  <script src="../../static/js/dashboard.js"></script>
 </div>
 
 {% endblock %}
