@@ -21,7 +21,28 @@
     over 2000 weather stations across the contiguous 48 states.
   </p>
 
-  <p><img src='../static/img/stations.png'></p>
+  <div>
+    <img src='../static/img/stations.png'>
+  </div>
+
+
+  <div id="clock">
+    <span id="time"></span>
+    <script>
+      function getDateString() {
+        $("#time").text("Current Date: " + new Date().toLocaleString());
+      }
+      setInterval(getDateString, 1000);
+    </script>
+  </div>
+
+  <div id="highlow">
+    <h3>Daily Extremes:</h3>
+    <p>High Temperature: <span id="natHigh"></span></p>
+    <p>Low Temperature: <span id="natLow"></span></p>
+  </div>
+  <script src="../../static/js/dailyExtremes.js"></script>
+
 
   <footer>
     <a href="https://github.com/tmaldrsn/wx-history"><i class="fa fa-github"></i></a>
