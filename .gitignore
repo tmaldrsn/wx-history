@@ -13,3 +13,7 @@ data/observations.db-journal
 
 .coverage
 .vscode
+
+DOCS.md
+forecasting-sandbox.ipynb
+.ipynb_checkpoints

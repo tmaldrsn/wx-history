@@ -1,9 +1,10 @@
+import os
 import datetime
 import sqlite3
 
 import numpy as np
 import matplotlib.pyplot as plt
-from keras.models import Sequential
+from keras.models import Sequential, model_from_json
 from keras.layers import Dense, Flatten, LSTM, RepeatVector, TimeDistributed
 from keras.layers.convolutional import Conv1D, MaxPooling1D
 
@@ -59,6 +60,29 @@ def format_dataset(data_stream, num_terms, model='mlp'):
     return X, y
 
 
+def load_model(json_filepath, h5_filepath):
+    json_file = open(json_filepath, 'r')
+    loaded_model_json = json_file.read()
+    json_file.close()
+
+    new_nn = NeuralNetwork()
+    new_nn.model = model_from_json(loaded_model_json)
+    new_nn.model.load_weights(h5_filepath)
+    new_nn.model.compile(optimizer=new_nn.optimizer, loss=new_nn.loss)
+
+    return new_nn
+
+
+def chdir(dirname):
+    try:
+        os.mkdir(dirname)
+        os.chdir(dirname)
+    except FileExistsError:
+        os.chdir(dirname)
+    except FileNotFoundError as err:
+        print("File Not Found: {}".format(err))
+
+
 class NeuralNetwork():
     def __init__(self, input_dim=3, activation='relu', optimizer='adam', loss='mse'):
         self.input_dim = input_dim
@@ -67,6 +91,7 @@ class NeuralNetwork():
         self.loss = loss
         self.id = ''
         self.model = Sequential()
+        self.last_update = datetime.date.today()
 
     def fit(self, X, y, epochs):
         self.model.fit(X, y, epochs=epochs, verbose=0)
@@ -75,9 +100,12 @@ class NeuralNetwork():
     def predict(self, x_input):
         return self.model.predict(x_input)
 
+    def last_model_update(self):
+        return self.last_update
+
     def get_future_data(self, data, epochs=3000, num_future_terms=100):
         X, y = format_dataset(data, self.input_dim, self.id)
-        self.fit(X, y, epochs=epochs)
+        #self.fit(X, y, epochs=epochs)
 
         future_terms = []
         arr = X[-1]
@@ -107,6 +135,22 @@ class NeuralNetwork():
         plt.axvline(x=len(data))
         plt.legend()
         plt.show()
+
+    def save(self):
+        # change into specific model directory
+        chdir(f'models/')
+        chdir(f'{str(datetime.date.today())}')
+        chdir(f'{self.id}')
+
+        # save model info into json and model weights into h5
+        model_json = self.model.to_json()
+        with open(f"model.json", "w") as json_file:
+            json_file.write(model_json)
+        self.model.save_weights(f"model.h5")
+        print("Saved model to disk")
+
+        # return to parent directory
+        chdir('../../../')
 
 
 class MultiLayerPerceptron(NeuralNetwork):
@@ -186,3 +230,7 @@ class Autoencoder(NeuralNetwork):
             LSTM(100, activation=self.activation, return_sequences=True))
         self.model.add(TimeDistributed(Dense(1)))
         self.model.compile(optimizer=self.optimizer, loss=self.loss)
+
+
+if __name__ == '__main__':
+    pass

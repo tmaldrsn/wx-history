@@ -51,14 +51,6 @@ def show_station_list():
     for val in vals:
         val[3] = round(val[3], 3)
         val[4] = round(val[4], 3)
-    """
-    con = sqlite3.connect(DB_PATH)
-    cur = con.cursor()
-
-    query = "select * from station"
-    stations_list = list(cur.execute(query))
-    con.close()
-    """
     return render_template('stations/index.html', stations=vals)
 
 

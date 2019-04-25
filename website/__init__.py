@@ -1,4 +1,5 @@
 from website.views import (
+    api,
     general,
     search,
     stations,
@@ -34,6 +35,7 @@ def not_found(error):
     return render_template('404.html'), 404
 
 
+server.register_blueprint(api.mod)
 server.register_blueprint(general.mod)
 server.register_blueprint(search.mod)
 server.register_blueprint(stations.mod)

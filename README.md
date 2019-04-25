@@ -83,10 +83,6 @@ Execute ```pytest``` in the command line to run the test suite.
 ## TODO
 
 * Update test suite
-* Search bar for zip code using search.py
 * Styling throughout website
 * Clean up machine learning models code
-* Interactive station map on main page
 * Search page upgrade
-* Remove 'dirty' data from observations.db and stations.csv
-* Allow get_obserations script to automatically remove 'bad' stations from csv and db

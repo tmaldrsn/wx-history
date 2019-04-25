@@ -1,5 +1,5 @@
 $(function () {
-  $.getJSON('./_get_extremes', {},
+  $.getJSON('./api/get_extremes', {},
     function (data) {
       $("#natHigh")[0].innerHTML = `${data.high} <a href="/stations/${data.high_station}">(${data.high_station})</a>`;
       $("#natLow")[0].innerHTML = `${data.low} <a href="/stations/${data.low_station}">(${data.low_station})</a>`;
@@ -32,8 +32,7 @@ function redirectToStationPage(zipcode) {
     return;
   }
 
-  $.getJSON('./_search_zipcode?zip=' + zipcode, {}, function (data) {
-    console.log(data);
+  $.getJSON('./api/search_zipcode?zip=' + zipcode, {}, function (data) {
     window.location.href = './stations/' + data[0];
   });
 }
