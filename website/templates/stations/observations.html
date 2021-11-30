@@ -22,14 +22,16 @@
 
 <div id="main">
   <a onclick="openNav()"><i class="fa fa-bars"></i></a>
-  <h1>Data for {{ station[0][0] }} - {{ station[0][2] }}</h1>
+  <div>
+    <h1>Data for {{ station[0][0] }} - {{ station[0][2] }}</h1>
+  </div>
   <div style="overflow-x:auto;" class="double-scroll">
     <table>
       <tr class="header">
-        <th rowspan=3 style="width:80px;">Datetime (local)</th>
+        <th rowspan=3 style="width:200px;">Datetime (local)</th>
         <th rowspan=3 style="width:50px;">Wind (mph)</th>
         <th rowspan=3 style="width:50px;">Vis. (mi.)</th>
-        <th rowspan=3 style="width:70px">Weather</th>
+        <th rowspan=3 style="width:200px">Weather</th>
         <th rowspan=3 style="width:70px">Sky Cond.</th>
         <th rowspan=1 style="width:150px;" colspan=4>Temperature (&#8457;)</th>
         <th rowspan=3 style="width:75px;">Humidity</th>

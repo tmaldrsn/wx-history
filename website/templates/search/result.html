@@ -20,7 +20,6 @@
 {% block page_title %} {{ station[0][0] }} - {{ curr_date }} {% endblock %}
 
 {% block body %}
-<h1>Data for {{ station[0][0] }} - {{ station[0][2] }} on {{ curr_date }}</h1>
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <a href="/" class="activepage">Home</a>
@@ -32,12 +31,14 @@
   <a onclick="openNav()"><i class="fa fa-bars"></i></a>
 
 
+  <h1>Data for {{ station[0][0] }} - {{ station[0][2] }} on {{ curr_date }}</h1>
   <div class="date-nav">
     <a href="./data?station={{station[0][0]}}&date={{prev_date}}">
       << {{prev_date}} </a> | {{curr_date}} | <a href="./data?station={{station[0][0]}}&date={{next_date}}">
         {{next_date}} >>
     </a>
   </div>
+  {% if obs %}
   <table>
     <tr class="header">
       <th rowspan=3>Date</th>
@@ -119,6 +120,9 @@
       <th rowspan=1 colspan=3>Precipitaion (in.)</th>
     </tr>
   </table>
+  {% else %}
+  <div style="padding:30px;"><b>No results found for {{ curr_date }}</b></div>
+  {% endif %}
   <div class="date-nav">
     <a href="./data?station={{station[0][0]}}&date={{prev_date}}">
       << {{prev_date}} </a> | {{curr_date}} | <a href="./data?station={{station[0][0]}}&date={{next_date}}">

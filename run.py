@@ -1,2 +1,2 @@
 from website import server
-server.run(debug=True)
+server.run(port=8000)

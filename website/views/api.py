@@ -53,7 +53,7 @@ def zipcode_to_station():
 
 def get_zip_coords(zipcode):
     df = pd.read_csv('data/zipcodes.csv')
-    entry = df[df.Zipcode == zipcode].get_values()
+    entry = df[df.Zipcode == zipcode].values
     return entry.item(5), entry.item(6)
 
 
@@ -74,7 +74,7 @@ def haversine(lat1, lon1, lat2, lon2):
 def get_closest_station(zipcode):
     zip_lat, zip_lon = get_zip_coords(zipcode)
     stations = pd.read_csv('data/stations.csv', sep=',',
-                           quotechar='|').get_values()
+                           quotechar='|').values
     closest_distance, closest_station = np.inf, ""
 
     for station in stations:
